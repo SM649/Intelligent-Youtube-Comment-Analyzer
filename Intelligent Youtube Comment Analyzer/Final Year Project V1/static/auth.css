@@ -1,0 +1,605 @@
+/* Define CSS Variables (Auth Pages, aligned with Dashboard Theme) */
+/* These variables control the theme colors, spacing, etc. for login and register pages */
+:root {
+    /* Colors aligned with dashboard theme */
+    /* These variables should ideally match the ones in your dashboard.css :root */
+    --theme-color-primary: #4361ee;
+    --theme-color-primary-dark: #3f37c9;
+    --theme-color-primary-darker: #3730a3;
+    --theme-color-gradient-start: #4e54c8;
+    --theme-color-gradient-end: #8f94fb;
+    --theme-color-background: #f8f9fa;
+    --theme-color-surface: #fff;
+    --theme-color-text-dark: #333; /* Note: This is used in HTML, not directly in auth.css variables */
+    --theme-color-text-medium: #555; /* Note: Not directly used in auth.css variables */
+    --theme-color-text-muted: #6c757d; /* Used for icons, divider text */
+    --theme-color-border-light: #e2e8f0;
+    --theme-color-border-lighter: #e9ecef;
+
+    /* RGB Colors aligned with dashboard theme - for rgba() values */
+    /* These should ideally match the ones in your dashboard.css :root */
+    --theme-color-primary-rgb: 67, 97, 238;
+    --theme-color-primary-dark-rgb: 63, 55, 201;
+    --theme-color-gradient-start-rgb: 78, 84, 200;
+    --theme-color-black-rgb: 0, 0, 0;
+    --theme-color-white-rgb: 255, 255, 255;
+
+    /* Auth Specific Colors (Keep separate as they are not in the provided dashboard theme) */
+    --auth-color-social-bg-light: #f1f5f9;
+    --auth-color-social-google-hover: #DB4437;
+    --auth-color-social-facebook-hover: #4267B2;
+    --auth-color-social-twitter-hover: #1DA1F2;
+    --auth-color-profile-preview-bg: #f5f7fa;
+
+
+    /* Spacing, Border Radius, Box Shadows, Transitions (Use a consistent set of variables) */
+    /* You can choose to use auth-specific names or align with dashboard if they are shared */
+    /* Below, I've used consistent names as in the dashboard template provided */
+
+    /* Spacing */
+    --space-px-3: 3px;
+    --space-px-40: 40px;
+    --space-px-50: 50px;
+    --space-px-100: 100px;
+    --space-px-140: 140px;
+
+    --space-rem-0-5: 0.5rem;
+    --space-rem-0-8: 0.8rem;
+    --space-rem-0-95: 0.95rem;
+    --space-rem-1: 1rem;
+    --space-rem-1-1: 1.1rem;
+    --space-rem-1-2: 1.2rem;
+    --space-rem-1-5: 1.5rem;
+    --space-rem-2: 2rem;
+    --space-rem-3: 3rem;
+
+
+    /* Border Radius */
+    --border-radius-sm: 8px;
+    --border-radius-md: 15px;
+    --border-radius-lg: 30px;
+    --border-radius-circle: 50%;
+
+
+    /* Box Shadows */
+    /* Mapping auth shadows to dashboard shadows for consistency */
+    --shadow-navbar: 0 0.15rem 1.75rem 0 rgba(var(--theme-color-primary-dark-rgb), 0.15);
+    --shadow-card-base: 0 15px 30px rgba(var(--theme-color-black-rgb), 0.1);
+    --shadow-card-hover: 0 20px 40px rgba(var(--theme-color-black-rgb), 0.15);
+    --shadow-input-focus: 0 0 0 0.25rem rgba(var(--theme-color-primary-rgb), 0.25);
+    --shadow-button-primary: 0 4px 15px rgba(var(--theme-color-gradient-start-rgb), 0.4);
+    --shadow-button-primary-hover: 0 7px 20px rgba(var(--theme-color-primary-dark-rgb), 0.6); /* Using dashboard primary dark RGB */
+    --shadow-profile-preview: 0 5px 15px rgba(var(--theme-color-black-rgb), 0.08);
+    --shadow-profile-preview-hover: 0 8px 20px rgba(var(--theme-color-primary-rgb), 0.2);
+
+
+    /* Transitions */
+    /* Using consistent naming convention as dashboard.css variables */
+    --transition-base: all 0.3s ease;
+    --transition-transform-base: transform 0.3s ease;
+
+
+    /* Gradients (using dashboard theme colors) */
+    --gradient-header: linear-gradient(135deg, var(--theme-color-gradient-start) 0%, var(--theme-color-gradient-end) 100%);
+    --gradient-button: linear-gradient(90deg, var(--theme-color-gradient-start) 0%, var(--theme-color-gradient-end) 100%);
+    --gradient-button-hover: linear-gradient(90deg, var(--theme-color-primary-darker) 0%, var(--theme-color-primary-dark) 100%); /* Mapped to dashboard darker/dark primary */
+    --gradient-feature-icon: linear-gradient(135deg, var(--theme-color-gradient-start) 0%, var(--theme-color-gradient-end) 100%); /* Same as header */
+}
+
+
+/* General styles for Auth pages */
+/* These styles apply to both login and register pages */
+
+/* Basic body styling (font and background) - Using theme variable */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--theme-color-background);
+}
+
+/* Navbar styling (basic background and shadow) - Using theme color and shadow variables */
+.navbar {
+    background: var(--theme-color-gradient-start); /* Using dashboard gradient start color for navbar background */
+    box-shadow: var(--shadow-navbar);
+}
+
+/* Loading spinner (utility style, could be used on these pages) - Using black with opacity variable */
+.spinner-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(var(--theme-color-black-rgb), 0.5);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px); /* Keep original px value */
+}
+
+/* Navbar brand logo size and spacing - Keep original rem/px values, they are not theme colors */
+.navbar-brand img {
+    max-width: 2.5rem;
+    max-height: 2.5rem;
+    margin-right: 0.5rem;
+}
+
+/* Navbar link basic styling and hover underline setup - Using theme variables */
+.nav-link {
+    font-weight: 500;
+    position: relative;
+    padding: 0.5rem 1rem !important;
+    color: var(--theme-color-surface); /* Using white variable */
+    transition: var(--transition-base);
+}
+
+/* Navbar link underline pseudo-element - Using theme variable */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px; /* Keep original px value */
+    background-color: var(--theme-color-surface); /* White underline */
+    transition: var(--transition-base);
+    transform: translateX(-50%);
+}
+
+/* Navbar link underline hover effect - Keep original percentage */
+.nav-link:hover::after {
+    width: 70%;
+}
+
+/* Responsive adjustments for collapsed navbar menu - Using rem variables */
+@media (max-width: 991.98px) {
+    #navbarNav .navbar-nav {
+        align-items: flex-start;
+        margin-top: var(--space-rem-1);
+    }
+
+     #navbarNav .nav-item {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-bottom: var(--space-rem-0-5);
+    }
+
+     /* Ensure nav-link padding is correct in collapsed menu */
+    #navbarNav .nav-item .nav-link {
+       padding: var(--space-rem-0-5) var(--space-rem-1) !important;
+    }
+}
+
+/* Shared Container Styles - Using theme variable */
+.login-container,
+.register-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--theme-color-background);
+    /* Padding-top is handled by specific rules below */
+}
+
+/* Specific Padding to prevent overlap with fixed navbar - Using px variable */
+/* Keep separate as padding might need fine-tuning per page */
+.login-container {
+    padding-top: var(--space-px-100);
+}
+
+.register-container {
+    padding-top: var(--space-px-100);
+}
+
+/* Container for content below the header within the card */
+/* This class seems to be used in your HTML structure */
+
+
+
+/* Shared Content Wrapper within the container - Using rem variable */
+.login-content,
+.register-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: var(--space-rem-2) 0;
+}
+
+/* Shared Card Styles - Using border-radius, box-shadow, and transition variables */
+.login-card,
+.register-card {
+    border: none;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card-base);
+    transition: var(--transition-base);
+     /* Keep original Jinja2 */
+    /* Apply max-width and margin auto for centering the card within its column */
+    /* This replicates the explicit max-width and margin auto found in your auth.css */
+    max-width: 800px; /* Keep original px value */
+    margin: auto;
+}
+
+.login-card:hover,
+.register-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+/* Shared Header Styles (the top section inside the card) - Using gradient variable and theme variable */
+.login-header,
+.register-header {
+    background: var(--gradient-header);
+    padding: var(--space-rem-2);
+    color: var(--theme-color-surface);
+    text-align: center;
+    position: relative;
+}
+
+/* Header Overlay (assuming the same background image for both) - Keep original background-image, cannot be variable */
+.login-header::before,
+.register-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("{{ url_for('static', filename='img/bg3.png') }}"); /* Keep original Jinja2 */
+    background-size: cover;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+/* Ensure content is above the overlay */
+.login-header .content,
+.register-header .content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Shared Body Styles (the section below the header inside the card) - Using rem variable */
+.login-body,
+.register-body {
+    padding: var(--space-rem-2);
+}
+
+/* Shared Form Control (Input) Styles - Using border-radius, border color, font-size, transition, and shadow variables */
+.form-control {
+    border-radius: var(--border-radius-sm);
+    padding: var(--space-rem-0-8) var(--space-rem-1);
+    border: 1px solid var(--theme-color-border-light);
+    font-size: var(--space-rem-1);
+    transition: var(--transition-base);
+}
+
+.form-control:focus {
+    border-color: var(--theme-color-primary);
+    box-shadow: var(--shadow-input-focus);
+}
+
+/* Shared Button Styles (Login/Register Button) - Using padding, font-size, font-weight, border-radius, gradient, color, shadow, and transition variables */
+.login-btn,
+.register-btn {
+    padding: var(--space-rem-0-8) var(--space-rem-2);
+    font-size: var(--space-rem-1-1);
+    font-weight: 500;
+    border-radius: var(--border-radius-lg);
+    background: var(--gradient-button);
+    border: none;
+    color: var(--theme-color-surface);
+    box-shadow: var(--shadow-button-primary);
+    transition: var(--transition-base);
+}
+
+.login-btn:hover,
+.register-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-button-primary-hover);
+    /* background: var(--gradient-button-hover); */
+}
+
+/* Shared Footer Styles (at the bottom of the container) - Using padding, background color, border color variables */
+.login-footer,
+.register-footer {
+    text-align: center;
+    padding: var(--space-rem-2) 0;
+    background-color: var(--theme-color-background);
+    border-top: 1px solid var(--theme-color-border-lighter);
+}
+
+/* Shared Input Group Styles (for icons inside inputs) - Using border-radius, overflow, background color, border color, color variables */
+.input-group {
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+}
+
+.input-group-text {
+    background-color: var(--theme-color-background);
+    border-color: var(--theme-color-border-light);
+    color: var(--theme-color-text-muted);
+}
+
+
+/* Shared Features Section Styles (the right column in the card) - Using background color and border color variables */
+/* Padding is handled by specific rules below due to differences */
+.login-features,
+.register-features {
+    background-color: var(--theme-color-background);
+    border-left: 1px solid var(--theme-color-border-lighter);
+}
+
+/* Specific Features Padding (keep separate due to initial padding differences) - Using rem variable */
+.login-features {
+    padding: var(--space-rem-1);
+}
+
+.register-features {
+    padding: var(--space-rem-3);
+}
+
+/* Shared Feature Item Styles (each item in the features list) - Using margin-bottom variable */
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: var(--space-rem-2);
+}
+
+/* Shared Feature Icon Styles - Using width, height, border-radius, gradient, color, margin-right, font-size variables */
+.feature-icon {
+    width: var(--space-px-50);
+    height: var(--space-px-50);
+    border-radius: var(--border-radius-circle);
+    background: var(--gradient-feature-icon);
+    color: var(--theme-color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--space-rem-1);
+    font-size: var(--space-rem-1-2);
+    flex-shrink: 0;
+}
+
+/* Shared Responsive Features Styles - Using border and margin-top variables */
+@media (max-width: 991.98px) {
+    .login-features,
+    .register-features {
+        border-left: none;
+        border-top: 1px solid var(--theme-color-border-lighter);
+        margin-top: var(--space-rem-2);
+        /* Padding is handled by specific rules below */
+    }
+
+    /* Specific Responsive Features Padding (keep separate due to differences) - Using rem variable */
+    .login-features {
+        padding: var(--space-rem-2);
+    }
+     .register-features {
+        padding: var(--space-rem-2);
+    }
+}
+
+/* Shared Animated Arrow Styles (for buttons) - Using transition variables */
+.animated-arrow {
+    display: inline-block;
+    transition: var(--transition-transform-base);
+}
+
+/* Shared Animated Arrow Hover Trigger (apply animation on hover for both buttons) */
+/* The animation keyframes cannot be easily put into variables */
+/* animation: slide-right 1s infinite; is applied in the hover rule */
+
+/* Shared Keyframe Animation - Keep as is */
+@keyframes slide-right {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+/* Login Specific Styles */
+
+/* Divider line with 'OR' text - Using margin, color, border color, padding variables */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: var(--space-rem-1-5) 0;
+    color: var(--theme-color-text-muted);
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--theme-color-border-light);
+}
+
+.divider span {
+    padding: 0 var(--space-rem-1);
+}
+
+/* Social Login Buttons - Using margin-top variable */
+.social-login {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-rem-1-5);
+}
+
+/* Social Button Styles - Using width, height, border-radius, background color, color, margin, transition, font-size variables */
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--space-px-40);
+    height: var(--space-px-40);
+    border-radius: var(--border-radius-circle);
+    background-color: var(--auth-color-social-bg-light); /* Use auth-specific variable */
+    color: var(--theme-color-text-muted);
+    margin: 0 var(--space-rem-0-5);
+    transition: var(--transition-base);
+    font-size: var(--space-rem-1-2);
+}
+
+.social-btn:hover {
+    transform: translateY(-3px);
+    color: var(--theme-color-surface);
+}
+
+/* Social Button Hover Colors - Using auth-specific variables */
+.social-btn.google:hover {
+    background-color: var(--auth-color-social-google-hover);
+}
+
+.social-btn.facebook:hover {
+    background-color: var(--auth-color-social-facebook-hover);
+}
+
+.social-btn.twitter:hover {
+    background-color: var(--auth-color-social-twitter-hover);
+}
+
+
+/* Register Specific Styles */
+
+/* Profile Image Upload - Using margin-bottom variable */
+.profile-image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-rem-1-5);
+}
+
+/* Profile Image Upload area - Keep original properties */
+.profile-image-upload {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Profile Preview Image - Using width, height, border-radius, background color, border, transition, box-shadow variables */
+.profile-preview {
+    width: var(--space-px-140);
+    height: var(--space-px-140);
+    border-radius: var(--border-radius-circle);
+    object-fit: cover;
+    background-color: var(--auth-color-profile-preview-bg); /* Use auth-specific variable */
+    border: var(--space-px-3) solid rgba(var(--theme-color-primary-rgb), 0.5); /* Use px variable, theme RGB */
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-profile-preview);
+}
+
+/* Profile Image Upload Hover Effects - Using border color, transform, box-shadow, color, transition variables */
+.profile-image-upload:hover .profile-preview {
+    border-color: var(--theme-color-primary); /* Use theme primary color */
+    transform: scale(1.03);
+    box-shadow: var(--shadow-profile-preview-hover);
+}
+
+.profile-image-upload:hover .profile-upload-text {
+    color: var(--theme-color-primary-dark); /* Use theme primary dark color */
+}
+
+/* Profile Upload Text - Using margin-top, font-weight, color, font-size, transition variables */
+.profile-upload-text {
+    margin-top: var(--space-rem-1);
+    font-weight: 500;
+    color: var(--theme-color-primary); /* Use theme primary color */
+    font-size: var(--space-rem-0-95);
+    transition: var(--transition-base);
+}
+
+/* Profile Upload Input - Keep original properties */
+.profile-upload-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Input Group Styles (repeated from shared, but needed for register) - Using border-radius, overflow, background color, border color, color variables */
+.input-group {
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+}
+
+.input-group-text {
+    background-color: var(--theme-color-background);
+    border-color: var(--theme-color-border-light);
+    color: var(--theme-color-text-muted);
+}
+
+/* Register Features Section - Using background color, border color, padding variable */
+.register-features {
+    background-color: var(--theme-color-background);
+    border-left: 1px solid var(--theme-color-border-lighter);
+    padding: var(--space-rem-3);
+}
+
+/* Feature Item - Using margin-bottom variable */
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: var(--space-rem-2);
+}
+
+/* Feature Icon - Using width, height, border-radius, gradient, color, margin-right, font-size variables */
+.feature-icon {
+    width: var(--space-px-50);
+    height: var(--space-px-50);
+    border-radius: var(--border-radius-circle);
+    background: var(--gradient-feature-icon);
+    color: var(--theme-color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--space-rem-1);
+    font-size: var(--space-rem-1-2);
+    flex-shrink: 0;
+}
+
+/* Responsive Register Features Styles - Using border and margin-top variables */
+@media (max-width: 991.98px) {
+    .register-features {
+        border-left: none;
+        border-top: 1px solid var(--theme-color-border-lighter);
+        margin-top: var(--space-rem-2);
+        padding: var(--space-rem-2);
+    }
+}
+
+/* Animated arrow - Using display, transition variables */
+.animated-arrow {
+    display: inline-block;
+    transition: var(--transition-transform-base);
+}
+
+/* Register button hover trigger for animated arrow - Keep original animation property */
+/* animation: slide-right 1s infinite; is applied in the hover rule */
+
+/* Keyframe animation - Keep as is */
+@keyframes slide-right {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Additional styles found in login.html's inline style block - Moved here */
+.card.login-card {
+    max-width: 800px !important; /* Keep original important */
+    margin-left: auto;
+    margin-right: auto;
+}

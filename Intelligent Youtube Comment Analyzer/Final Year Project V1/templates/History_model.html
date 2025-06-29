@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>History – Intelligent YouTube Comment Analyzer</title>
+  <link rel="icon" href="/static/img/logo.png">
+  <!-- Google Fonts & Bootstrap & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <!-- Sidebar (unchanged) -->
+    <nav id="sidebar">
+      <div class="sidebar-header">
+          <button id="sidebarClose" class="d-md-none">&times;</button>
+          <div class="d-flex align-items-center">
+              <img src="/static/img/logo.png" alt="Logo" class="logo">
+              <h5 class="ms-2 mb-0">Comment Analyzer</h5>
+          </div>
+      </div>
+
+      <div class="sidebar-content">
+          <ul class="list-unstyled components">
+              <li >
+                  <a href="{{ url_for('index') }}"><i class="bi bi-house-fill me-2"></i> Dashboard</a>
+              </li>
+              <li class="active">
+                  <a href="{{ url_for('history') }}"><i class="bi bi-clock-history me-2"></i> History</a>
+              </li>
+              <li class="{% if active_page=='profile' %}active{% endif %}">
+                  <a href="{{ url_for('auth.profile_settings') }}">
+                      <i class="bi bi-gear-fill me-2"></i>Profile Settings
+                  </a>
+              </li>
+          </ul>
+      </div>
+
+  </nav>
+
+    <!-- Page Content -->
+    <div id="content">
+      <!-- Navbar (same gradient + shadow) -->
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button type="button" id="sidebarCollapse" class="btn btn-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="mx-auto text-center">
+                <a class="navbar-brand" href="#">
+                    <span class="brand-text">Intelligent YouTube Comments Analyzer</span>
+                </a>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <ul class="navbar-nav ms-auto">
+                    {% if username %}
+                    <li class="nav-item dropdown profile-dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="data:image/png;base64,{{ profile }}" class="profile-picture" alt="Profile">
+                            <span class="profile-name">{{ username }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('auth.profile_settings') }}">
+                                    <i class="fas fa-user-cog me-2"></i>Profile Settings
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('auth.logout') }}">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+      <!-- Main container, matching dashboard paddings -->
+      <div class="container-fluid p-4">
+        <h1 class="mb-4">Analysis History</h1>
+
+        {% if history_data %}
+        {% for analysis in history_data %}
+        <div class="card video-card analysis-card mb-4">
+          <div class="card-body">
+            <div class="row g-3 align-items-center">
+              <!-- Thumbnail -->
+              <div class="col-sm-4 col-lg-3 text-center">
+                {% if analysis.thumbnail %}
+                <img src="data:image/jpeg;base64,{{ analysis.thumbnail }}" alt="Thumbnail" class="rounded img-fluid">
+                {% else %}
+                <img src="https://via.placeholder.com/160x90?text=No+Thumbnail" alt="No Thumbnail"
+                  class="rounded img-fluid">
+                {% endif %}
+              </div>
+
+              <!-- Details -->
+              <div class="col-sm-8 col-lg-9">
+                <h5 class="card-title">{{ analysis.Video_Title }}</h5>
+                <p class="mb-1"><strong>Channel:</strong> {{ analysis.Channel_Name }}</p>
+                <p class="mb-1"><strong>Video ID:</strong> {{ analysis.video_id }}</p>
+                <p class="mb-1"><strong>Total Comments:</strong> {{ analysis.total_fetched }}</p>
+                <p class="mb-1"><strong>English Comments:</strong> {{ analysis.total_english }}</p>
+
+                <div class="row mt-3">
+                  <!-- Comments summary cards -->
+                  <div class="col-md-4 mb-3">
+                    <div class="card summary-card positive-card h-100">
+                      <div class="card-body">
+                        <h6 class="card-title text-success mb-2">Positive</h6>
+                        <p class="display-6 mb-1">{{ analysis.positive_count }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <div class="card summary-card negative-card h-100">
+                      <div class="card-body">
+                        <h6 class="card-title text-danger mb-2">Negative</h6>
+                        <p class="display-6 mb-1">{{ analysis.negative_count }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <div class="card summary-card neutral-card h-100">
+                      <div class="card-body">
+                        <h6 class="card-title text-warning mb-2">Neutral</h6>
+                        <p class="display-6 mb-1">{{ analysis.neutral_count }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Optional Charts -->
+                <div class="row">
+                  {% if analysis.bar_chart_id %}
+                  <div class="col-md-6 mb-3">
+                    <div class="card graph-card h-100">
+                      <div class="card-header bg-white">
+                        <h6 class="card-title mb-0">Comments Chart</h6>
+                      </div>
+                      <div class="card-body text-center">
+                        <img src="data:image/png;base64,{{ analysis.bar_chart_id }}" alt="Comments Chart"
+                          class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% if analysis.emoji_chart_id %}
+                  <div class="col-md-6 mb-3">
+                    <div class="card graph-card h-100">
+                      <div class="card-header bg-white">
+                        <h6 class="card-title mb-0">Emoji Chart</h6>
+                      </div>
+                      <div class="card-body text-center">
+                        <img src="data:image/png;base64,{{ analysis.emoji_chart_id }}" alt="Emoji Chart"
+                          class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+
+                <!-- Delete button -->
+                <div class="text-end mt-3">
+                  <button class="btn btn-danger btn-sm delete-history-btn" data-video-id="{{ analysis.video_id }}">
+                    <i class="bi bi-trash"></i> Delete
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="text-muted">No analysis history available.</p>
+        {% endif %}
+
+        <footer class="text-center mt-5 mb-3 text-muted">
+          © 2025 Intelligent YouTube Comment Analyzer. All Rights Reserved.
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap & custom JS (same as dashboard) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='myjs.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.delete-history-btn').forEach(button => {
+        button.addEventListener('click', function () {
+          const videoId = this.dataset.videoId;
+          // look for the .video-card wrapper
+          const card = this.closest('.video-card');
+          if (!card) {
+            console.error('Could not find .video-card parent');
+            return;
+          }
+
+          if (!confirm('Are you sure you want to delete this Analyses?')) {
+            return;
+          }
+
+          fetch(`/delete_history/${videoId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data.success) {
+                card.remove();
+              } else {
+                alert('Failed to delete: ' + data.message);
+              }
+            })
+            .catch(err => {
+              console.error('Error deleting history:', err);
+              alert('An error occurred.');
+            });
+        });
+      });
+    });
+
+    
+  </script>
+
+</body>
+
+</html>
