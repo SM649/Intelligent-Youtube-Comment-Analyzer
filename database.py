@@ -1,148 +1,120 @@
-from pymongo import MongoClient
-import gridfs
-
+from firebase_client import get_firestore_client
 from werkzeug.security import generate_password_hash, check_password_hash
+
 
 class Database:
     def __init__(self):
-        self.client = MongoClient('mongodb://localhost:27017/')
-        self.db = self.client['YCA']
-        self.users = self.db['users_data']
-        self.video_analysis = self.db['video_analysis']
-        self.fs = gridfs.GridFS(self.db)  # Initialize GridFS
+        self.db = get_firestore_client()
+        self.users = self.db.collection('users_data')
+        self.video_analysis = self.db.collection('video_analysis')
 
-    def register_user(self,username: str,email: str,password: str,profile_image_b64: str = None) -> tuple[bool, str]:
-      # 1) check for duplicates
-        if self.users.find_one({'email': email}):
-            return False, "Email already registered"
-        if self.users.find_one({'username': username}):
+    def register_user(self, username: str, email: str, password: str, profile_image_b64: str = None) -> tuple[bool, str]:
+        if self.users.document(username).get().exists:
             return False, "Username already taken"
+        if list(self.users.where('email', '==', email).limit(1).stream()):
+            return False, "Email already registered"
 
-        # 2) hash password
-        hashed_password = generate_password_hash(password)
-
-        # 3) build user doc
         user_doc = {
             'username': username,
-            'email':    email,
-            'password': hashed_password,
+            'email': email,
+            'password': generate_password_hash(password),
         }
-        # 4) include image if provided
         if profile_image_b64:
             user_doc['profile_image_b64'] = profile_image_b64
 
-        # 5) insert into Mongo
-        self.users.insert_one(user_doc)
-
-        # 6) success
+        self.users.document(username).set(user_doc)
         return True, "Registration successful"
 
     def verify_user(self, email, password):
-        user = self.users.find_one({'email': email})
-        if user and check_password_hash(user['password'], password):
+        matches = list(self.users.where('email', '==', email).limit(1).stream())
+        if not matches:
+            return False, None
+        user = matches[0].to_dict()
+        if check_password_hash(user['password'], password):
             return True, user
         return False, None
 
-    def save_image(self, image_data, filename):
-        """Save image to MongoDB GridFS and return the file ID."""
-        file_id = self.fs.put(image_data, filename=filename)
-        return file_id
-    
     def get_user_video_ids(self, username):
-        # Query the video_analysis collection to get all video data for the given user.
-        # We convert the result to a list so we can iterate over it twice.
-        video_data = list(self.video_analysis.find({"username": username}))
-        
-        # Extract the video_id from each entry and store them in a list.
-        video_ids = [entry["video_id"] for entry in video_data]
-
-        # Extract the Video_Title from each entry.
-        # If a document doesn't have "Video_Title", it will use "No Title Found" as the default.
-        video_titles = [entry.get("Video_Title", "No Title Found") for entry in video_data]
-        
-        # Return both the list of video IDs and video titles.
+        docs = [d.to_dict() for d in self.video_analysis.where('username', '==', username).stream()]
+        video_ids = [d["video_id"] for d in docs]
+        video_titles = [d.get("Video_Title", "No Title Found") for d in docs]
         return video_ids, video_titles
 
     def save_analysis(self, username, video_id, analysis_data, bar_chart, emoji_chart):
-        """Save analysis results in MongoDB along with chart images."""
-
+        """Save analysis results in Firestore along with chart images (as base64 strings)."""
         analysis_data.update({
             "username": username,
             "video_id": video_id,
             "bar_chart_id": bar_chart,
             "emoji_chart_id": emoji_chart
         })
+        self.video_analysis.add(analysis_data)
 
-        # Insert into MongoDB
-        self.video_analysis.insert_one(analysis_data)
-    
     def get_user_analysis_history(self, username):
-        """Fetches the analysis history for a given user."""
-        return list(self.video_analysis.find({"username": username}))
-    
-    # In your database.py file
+        return [d.to_dict() for d in self.video_analysis.where('username', '==', username).stream()]
+
     def delete_analysis(self, username, video_id):
-        """Deletes a specific video analysis record for a given user."""
-        result = self.video_analysis.delete_one({"username": username, "video_id": video_id})
-        return result.deleted_count > 0
-    
-    def get_user_profile_image(self, username: str) -> str | None:
-        """
-        Returns the Base64 string for the user's profile image,
-        or None if not set.
-        """
-        user = self.users.find_one(
-            {'username': username},
-            {'_id': 0, 'profile_image_b64': 1}
+        docs = list(
+            self.video_analysis
+                .where('username', '==', username)
+                .where('video_id', '==', video_id)
+                .stream()
         )
-        if user and user.get('profile_image_b64'):
-            return user['profile_image_b64']
+        for d in docs:
+            d.reference.delete()
+        return len(docs) > 0
+
+    def get_user_profile_image(self, username: str) -> str | None:
+        doc = self.users.document(username).get()
+        if doc.exists:
+            return doc.to_dict().get('profile_image_b64')
         return None
-    
+
     def update_user_profile(self,
                         old_username: str,
                         new_username: str,
                         new_password: str = None,
                         profile_image_b64: str = None
                         ) -> tuple[bool, str]:
-        """
-        Updates the given user's username, password, and/or profile image.
-        Returns (True, message) on success, or (False, error_message).
-        """
-
-        # 1) Make sure the user actually exists
-        user = self.users.find_one({'username': old_username})
-        if not user:
+        old_ref = self.users.document(old_username)
+        old_doc = old_ref.get()
+        if not old_doc.exists:
             return False, "User not found"
 
-        # 2) If they changed their username, ensure it's not already taken
-        if new_username != old_username:
-            if self.users.find_one({'username': new_username}):
-                return False, "Username already taken"
+        if new_username != old_username and self.users.document(new_username).get().exists:
+            return False, "Username already taken"
 
-        # 3) Build the set of fields to update
         update_fields = {}
-        if new_username != old_username:
-            update_fields['username'] = new_username
         if new_password:
-            # hash the new password
             update_fields['password'] = generate_password_hash(new_password)
         if profile_image_b64:
             update_fields['profile_image_b64'] = profile_image_b64
 
-        # 4) If nothing to update, return early
-        if not update_fields:
+        if not update_fields and new_username == old_username:
             return True, "No changes made"
 
-        # 5) Perform the update
-        result = self.users.update_one(
-            {'username': old_username},
-            {'$set': update_fields}
-        )
-
-        if result.matched_count == 0:
-            return False, "Failed to update profile"
+        if new_username != old_username:
+            # Document ID is the username, so a rename is copy-then-delete, not an update.
+            user_data = old_doc.to_dict()
+            user_data.update(update_fields)
+            user_data['username'] = new_username
+            self.users.document(new_username).set(user_data)
+            old_ref.delete()
         else:
-            return True, "Profile updated successfully"
+            old_ref.update(update_fields)
 
+        return True, "Profile updated successfully"
 
+    def get_analysis_by_video_id(self, video_id):
+        matches = list(self.video_analysis.where('video_id', '==', video_id).limit(1).stream())
+        return matches[0].to_dict() if matches else None
+
+    def get_analysis_for_user(self, username, video_id):
+        matches = list(
+            self.video_analysis
+                .where('username', '==', username)
+                .where('video_id', '==', video_id)
+                .limit(1)
+                .stream()
+        )
+        return matches[0].to_dict() if matches else None
