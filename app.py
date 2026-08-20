@@ -1,3 +1,7 @@
+from dotenv import load_dotenv
+load_dotenv()
+
+import os
 from flask import Flask, render_template, request, session, jsonify
 from auth import auth, login_required
 from database import Database
@@ -5,7 +9,7 @@ from analyses import perform_video_analysis  # helper function in a separate mod
 from extract_id import extract_video_id  # needed to extract video id
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here'  # Change this to a secure secret key
+app.secret_key = os.environ["FLASK_SECRET_KEY"]
 app.register_blueprint(auth)
 db = Database()
 
@@ -44,7 +48,7 @@ def about():
 @login_required
 def fetch_analysis(video_id):
     """Get analysis data from the database for a given video"""
-    analysis_data = db.video_analysis.find_one({"video_id": video_id})
+    analysis_data = db.get_analysis_for_user(session.get('user'), video_id)
     if analysis_data:
         return jsonify({
             "video_id": analysis_data.get("video_id"),
@@ -97,7 +101,7 @@ def analyze():
         return render_template('index.html', error_message=error_alert, username=session.get('user'), videos=videos, profile=profile_image_b64)
 
     # Check if the user has already analyzed this video
-    existing_data = db.video_analysis.find_one({"video_id": video_id, "username": session.get('user')})
+    existing_data = db.get_analysis_for_user(session.get('user'), video_id)
 
     if existing_data:
         # Prepare structured data for modal display
@@ -190,4 +194,5 @@ def delete_history(video_id):
         return jsonify({'success': False, 'message': 'Failed to delete analysis history.'})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    port = int(os.environ.get('PORT', 5001))
+    app.run(host='0.0.0.0', port=port, debug=os.environ.get('FLASK_DEBUG', 'false').lower() == 'true')

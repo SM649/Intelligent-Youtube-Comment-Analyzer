@@ -6,29 +6,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Flask web app that fetches YouTube comments for a video (YouTube Data API v3), runs them through
 sentiment/emoji/topic/summary analysis using several Hugging Face transformer models, renders
-matplotlib charts as base64 images, and stores per-user results in MongoDB.
+matplotlib charts as base64 images, and stores per-user results in Firebase Firestore. Deployed
+as a Hugging Face Spaces Docker app.
 
 ## Running the app
 
-There is no `requirements.txt`, `.gitignore`, `.env`, or test suite in this repo despite the
-README describing them — install dependencies manually before running:
+A `requirements.txt` exists — install dependencies inside a venv rather than manually:
 
 ```bash
-pip install flask pymongo gridfs werkzeug aiohttp langid transformers torch \
-    emoji matplotlib numpy scikit-learn nltk
-python app.py   # serves on http://127.0.0.1:5001 (debug=True)
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python app.py   # serves on http://127.0.0.1:5001 locally (PORT env var, default 5001)
 ```
 
-Requires a running local MongoDB instance (`mongodb://localhost:27017/`, hardcoded in
-`database.py`) and NLTK's `stopwords` corpus (`ternding_Topics.py` auto-downloads it on first
-use if missing).
+Requires a Firebase project (Firestore enabled) and a `.env` file (git-ignored) in the project
+root with:
 
-**The YouTube API key is hardcoded**, not read from an environment variable — set it directly in
-`fetch_comments.py`:
-
-```python
-API_KEY = "Your API key here."
 ```
+FLASK_SECRET_KEY=...
+YOUTUBE_API_KEY=...
+FIREBASE_SERVICE_ACCOUNT_JSON={"type": "service_account", ...}   # full service account JSON, single line
+```
+
+The app will not start without `FLASK_SECRET_KEY` (`app.py`) or `FIREBASE_SERVICE_ACCOUNT_JSON`
+(`firebase_client.py`) — both are read directly from the environment via `os.environ[...]`, no
+fallback. On Hugging Face Spaces these are set as Repository Secrets instead of a committed `.env`.
+
+Also requires NLTK's `stopwords` corpus (`ternding_Topics.py` auto-downloads it on first use if
+missing).
 
 ## Architecture
 
@@ -36,7 +42,8 @@ API_KEY = "Your API key here."
 
 `app.py` is the only Flask app entry point; `auth.py` is a Blueprint registered onto it (no
 `url_prefix`, so its routes live at the same top level as `app.py`'s routes). Both use a
-process-wide `Database()` instance (`database.py`, `pymongo`) — no ORM, direct collection access
+process-wide `Database()` instance (`database.py`, backed by `firebase_admin`/`google-cloud-firestore`
+via `firebase_client.get_firestore_client()`) — no ORM, direct collection access
 (`db.users`, `db.video_analysis`).
 
 The core pipeline lives in `analyses.py:perform_video_analysis`, called from `app.py`'s
@@ -62,24 +69,28 @@ The core pipeline lives in `analyses.py:perform_video_analysis`, called from `ap
 Results are packed into two dicts: one for immediate template rendering (`results_dict`, includes
 HTML snippets built inline in `analyses.py`) and one for persistence (`analysis_data`, saved via
 `db.save_analysis`). Re-analyzing a video already saved for the same user short-circuits the
-pipeline and reads the cached Mongo document instead (see the `existing_data` branch in
-`app.py:analyze`).
+pipeline and reads the cached Firestore document instead (see the `existing_data` branch in
+`app.py:analyze`, backed by `db.get_analysis_for_user`).
 
 ### Auth & storage
 
 - Passwords hashed with `werkzeug.security`; sessions store just the username in `session['user']`.
-- Profile images are stored as base64 strings directly on the user document — `gridfs.GridFS` is
-  initialized in `Database.__init__` (`self.fs`) but `save_image` is unused by any route; don't
-  assume GridFS is actually in the write path.
+- `database.py`'s `Database` class wraps two Firestore collections: `users_data` (document ID is
+  the username itself — see `auth.py`'s username validation in `register()`, which guards this
+  boundary since Firestore document IDs can't be empty, `/`-containing, `.`/`..`, or match
+  `__.*__`) and `video_analysis` (auto-generated document IDs, queried by `username`/`video_id`
+  fields).
+- Profile images and per-analysis chart images/thumbnails are stored as base64 strings directly
+  inline on the Firestore documents — there is no Firebase Storage / GridFS in this stack, and
+  that was a deliberate choice to avoid requiring a billing-enabled Firebase project.
 - `login_required` (`auth.py`) redirects to `auth.login` when `session['user']` is absent.
 
 ## Known gotchas
 
-- **`app.py` renders `'index.html'` but the file on disk is `templates/Index.html`** (capital I).
-  This filesystem is case-sensitive (Linux), so every route that calls
-  `render_template('index.html', ...)` will raise `TemplateNotFound` until the casing matches.
 - **Duplicate `/history` route**: both `app.py` (`@app.route('/history')`) and the `auth`
   blueprint (`@auth.route('/history')`) register a view for the same path, since the blueprint has
   no `url_prefix`. Only one is reachable depending on Werkzeug's rule matching order — if editing
   history behavior, check both and remove the redundant one rather than editing just one.
-- `app.secret_key` and the MongoDB URI are hardcoded, not environment-configured.
+- Secrets (`app.secret_key`, the YouTube API key, the Firebase service account) are all read from
+  environment variables (`.env` locally, HF Spaces Repository Secrets in deployment) — none are
+  hardcoded in source.

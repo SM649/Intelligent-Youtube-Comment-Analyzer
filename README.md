@@ -1,3 +1,12 @@
+---
+title: Intelligent YouTube Comment Analyzer
+emoji: 📊
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+---
+
 # 🎯 Intelligent YouTube Comment Analyzer
 
 > Uncover the true pulse of your audience. A web-based tool that applies deep learning (Transformer/BERT-based NLP) to YouTube comments, delivering actionable sentiment insights that help creators and marketers improve audience engagement.
@@ -212,7 +221,7 @@ Intelligent-Youtube-Comment-Analyzer/
 ├── templates/              # HTML templates (Flask/Jinja2)
 ├── app.py                  # Flask entry point
 ├── auth.py                 # Authentication routes/helpers
-├── database.py             # MongoDB/GridFS data access layer
+├── database.py             # Firestore data access layer
 ├── analyses.py             # Sentiment analysis orchestration
 ├── Model.py                # BERT/Transformer model loading & inference
 ├── fetch_comments.py       # YouTube Data API comment fetching
@@ -254,20 +263,32 @@ pip install -r requirements.txt
 python app.py
 ```
 
-The app will be available at `http://127.0.0.1:5000/`.
+The app reads its port from the `PORT` environment variable, defaulting to `5001` when run
+locally. The deployed Hugging Face Space sets `PORT=7860`.
+
+The app will be available at `http://127.0.0.1:5001/` when run locally.
 
 ---
 
 ## ⚙️ Configuration
 
-Create a `.env` file (or config file) in the project root with your API credentials:
+Create a `.env` file in the project root with your credentials:
 
 ```env
 YOUTUBE_API_KEY=your_youtube_data_api_v3_key_here
-FLASK_ENV=development
+FLASK_SECRET_KEY=your_flask_session_secret_key_here
+FIREBASE_SERVICE_ACCOUNT_JSON={"type": "service_account", ...}
 ```
 
-> 🔒 Never commit your `.env` file or API key to version control. Add `.env` to `.gitignore`.
+- `YOUTUBE_API_KEY` — a YouTube Data API v3 key.
+- `FLASK_SECRET_KEY` — used to sign Flask session cookies; the app will not start without it.
+- `FIREBASE_SERVICE_ACCOUNT_JSON` — the full contents of your Firebase service account JSON key,
+  as a single-line JSON string; used to authenticate to Firestore. The app will not start without it.
+
+On Hugging Face Spaces, set these as Repository Secrets instead of committing a `.env` file.
+
+> 🔒 Never commit your `.env` file, API keys, or the Firebase service account JSON to version
+> control. Both `.env` and `firebase-service-account.json` are already in `.gitignore`.
 
 ---
 
