@@ -1,455 +1,212 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base_public.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>About Us – Intelligent YouTube Comment Analyzer</title>
-    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">
+{% block title %}About Us – Intelligent YouTube Comment Analyzer{% endblock %}
 
-    <style>
+{% block content %}
+<section class="text-center py-24 md:py-32 bg-brand-gradient text-white">
+  <div class="max-w-4xl mx-auto px-4" data-aos="fade-up">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">About Our System</h1>
+    <p class="text-lg md:text-xl mb-8 text-white/90">
+      Intelligent YouTube Comment Analyzer turns raw comments into clear insights for creators and
+      marketers alike. Discover what your audience truly thinks.
+    </p>
+    <a href="{{ url_for('auth.register') }}" class="inline-flex items-center gap-2 bg-white text-primary-dark font-semibold px-8 py-3 rounded-brand-lg hover:bg-white/90 transition">
+      Get Started <i class="bi bi-arrow-right"></i>
+    </a>
+  </div>
+</section>
 
-    </style>
-</head>
-
-<body>
-    <!-- Navbar with gradient background -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-          <a class="navbar-brand text-white text-decoration-none" href="{{ url_for('landing') }}">
-            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="logo">
-            Intelligent YouTube Comments Analyzer
-          </a>
-    
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-    
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item mx-2">
-                <a class="nav-link text-white" href="{{ url_for('landing') }}">Home</a>
-              </li>
-              
-              <li class="nav-item mx-2">
-                <a class="nav-link text-white" href="{{ url_for('about') }}">About</a>
-              </li>
-              <li class="nav-item mx-2">
-                <a class="nav-link text-white" href="{{ url_for('auth.login') }}">
-                  <i class="fas fa-sign-in-alt me-1"></i> Login
-                </a>
-              </li>
-              <li class="nav-item mx-2">
-                <a class="nav-link text-white btn  py-2 px-3" href="{{ url_for('auth.register') }}">
-                  <i class="fas fa-user-plus me-1"></i> Register
-                </a>
-              </li>
-            </ul>
-          </div>
+<section class="py-20">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
+      <h2 class="text-3xl font-bold mb-2">Our Goals</h2>
+      <p class="text-text-muted">We're on a mission to make audience engagement data accessible and actionable</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <img src="{{ url_for('static', filename='img/about2.png') }}" alt="Analysis illustration" class="w-full rounded-brand-lg">
+      </div>
+      <div>
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold mb-2 flex items-center gap-2"><i class="fas fa-bullseye text-primary"></i> Our Mission</h3>
+          <p class="text-text-muted">We aim to empower content creators, brands, and researchers with actionable
+            data from YouTube comments using advanced NLP and sentiment analysis. Our platform
+            transforms complex audience engagement into clear, actionable insights that drive better content decisions.</p>
         </div>
-      </nav>
-    <!-- Hero Section with Background Image -->
-    <section class="section-top hero-section text-center">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-4">About Our System</h1>
-            <p class="lead mb-5">Intelligent YouTube Comment Analyzer turns raw comments into clear insights for
-                creators and
-                marketers alike. Discover what your audience truly thinks.</p>
-            <a href="{{ url_for('auth.register') }}" class="btn hero-btn btn-lg px-5 py-3 rounded-pill">
-                Get Started <i class="bi bi-arrow-right animated-arrow"></i>
-            </a>
+        <div>
+          <h3 class="text-xl font-semibold mb-2 flex items-center gap-2"><i class="fas fa-eye text-primary"></i> Our Vision</h3>
+          <p class="text-text-muted">To become the go-to platform for understanding audience engagement and
+            sentiment across all video platforms, driving more informed content strategies. We envision
+            a future where every creator can deeply understand their audience through data-driven insights,
+            creating more meaningful connections and higher-performing content.</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Our Goals Section -->
-    <section class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Goals</h2>
-                <p>We're on a mission to make audience engagement data accessible and actionable</p>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-md-6 mb-4 mb-md-0 mission-vision-image">
-                    <img src="{{ url_for('static', filename='img/about2.png') }}" alt="Analysis illustration"
-                        class="img-fluid">
-                </div>
-                <div class="col-md-6 mission-vision-text">
-                    <div class="mb-5">
-                        <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
-                        <p class="text-muted">We aim to empower content creators, brands, and researchers with
-                            actionable
-                            data from YouTube comments using advanced NLP and sentiment analysis. Our platform
-                            transforms complex audience engagement
-                            into clear, actionable insights that drive better content decisions.</p>
-                    </div>
-                    <div>
-                        <h3><i class="fas fa-eye"></i> Our Vision</h3>
-                        <p class="text-muted">To become the go-to platform for understanding audience engagement and
-                            sentiment across all video platforms, driving more informed content strategies. We envision
-                            a future where
-                            every creator can deeply understand their audience through data-driven insights,
-                            creating more meaningful connections and higher-performing content.</p>
-                    </div>
-                </div>
-            </div>
+<section class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
+      <h2 class="text-3xl font-bold mb-2">Key Features</h2>
+      <p class="text-text-muted">Discover what makes our analyzer the preferred choice for content creators and marketers</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="rounded-brand-lg p-6 shadow-card-base hover:shadow-card-hover transition" data-aos="fade-up" data-aos-delay="100">
+        <i class="fas fa-chart-pie text-3xl text-primary mb-3"></i>
+        <h5 class="font-semibold mb-2">Sentiment Analysis</h5>
+        <p class="text-sm text-text-muted">Advanced algorithms categorize comments as positive, negative, or neutral, providing a
+          comprehensive view of audience reception.</p>
+      </div>
+      <div class="rounded-brand-lg p-6 shadow-card-base hover:shadow-card-hover transition" data-aos="fade-up" data-aos-delay="200">
+        <i class="fas fa-key text-3xl text-primary mb-3"></i>
+        <h5 class="font-semibold mb-2">Keyword Extraction</h5>
+        <p class="text-sm text-text-muted">Automatically identifies and ranks frequently mentioned terms and phrases to highlight
+          what matters most to your audience.</p>
+      </div>
+      <div class="rounded-brand-lg p-6 shadow-card-base hover:shadow-card-hover transition" data-aos="fade-up" data-aos-delay="300">
+        <i class="fas fa-tachometer-alt text-3xl text-primary mb-3"></i>
+        <h5 class="font-semibold mb-2">Real-time Dashboard</h5>
+        <p class="text-sm text-text-muted">Interactive visualizations and metrics give you instant insights into your content
+          performance and audience reactions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-20">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
+      <h2 class="text-3xl font-bold mb-2">Our System's Architecture</h2>
+      <p class="text-text-muted">Our simple five-step process delivers powerful analytics in minutes</p>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-10 items-center">
+      <img src="{{ url_for('static', filename='img/about3.png') }}" alt="Analysis workflow diagram" class="w-full rounded-brand-lg shadow-card-base">
+      <ol class="space-y-4 text-text-muted list-decimal list-inside">
+        <li><strong class="text-text-dark">Enter Video URL:</strong> Provide a valid YouTube video link to begin the analysis
+          process. Our system supports any public YouTube video.</li>
+        <li><strong class="text-text-dark">Fetch Comments:</strong> Our system retrieves comments using the YouTube API,
+          gathering thousands of data points for analysis.</li>
+        <li><strong class="text-text-dark">Analyze Text:</strong> NLP algorithms parse sentiment and keywords, categorizing
+          comments and identifying trends in real-time.</li>
+        <li><strong class="text-text-dark">Display Results:</strong> Interactive charts and tables show insights including
+          sentiment distribution, keyword frequency, and engagement metrics.</li>
+        <li><strong class="text-text-dark">Save History:</strong> Users can review past analyses in their profile, track
+          changes over time, and export results for presentations.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
+      <h2 class="text-3xl font-bold mb-2">System's Limitation</h2>
+      <p class="text-text-muted">The current capabilities of System.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 text-center">
+      <div class="rounded-brand-lg p-6 shadow-card-base" data-aos="fade-up">
+        <i class="fas fa-users text-3xl text-primary mb-3"></i>
+        <h2 class="text-xl font-semibold mb-1">Fetch</h2>
+        <p class="text-sm text-text-muted">Fetch only top level comments of users.</p>
+      </div>
+      <div class="rounded-brand-lg p-6 shadow-card-base" data-aos="fade-up" data-aos-delay="100">
+        <i class="fas fa-comments text-3xl text-primary mb-3"></i>
+        <h2 class="text-xl font-semibold mb-1">Comments Analyzed</h2>
+        <p class="text-sm text-text-muted">Analyze upto 1000 comments</p>
+      </div>
+      <div class="rounded-brand-lg p-6 shadow-card-base" data-aos="fade-up" data-aos-delay="200">
+        <i class="fas fa-video text-3xl text-primary mb-3"></i>
+        <h2 class="text-xl font-semibold mb-1">Only Videos</h2>
+        <p class="text-sm text-text-muted">Process only Videos</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-20">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="text-center mb-12" data-aos="fade-up">
+      <h2 class="text-3xl font-bold mb-2">Our Journey</h2>
+      <p class="text-text-muted">How we've evolved to better.</p>
+    </div>
+    <div class="space-y-8 border-l-2 border-border-light pl-6">
+      <div data-aos="fade-up">
+        <span class="text-sm font-semibold text-primary">Sep - 2024</span>
+        <h4 class="font-semibold text-lg">Project Launch</h4>
+        <p class="text-text-muted">Initial developed as a research prototype for real-time sentiment analysis of YouTube comments.
+          Focused solely on analyzing textual comments at a basic level with python Libraries.</p>
+      </div>
+      <div data-aos="fade-up">
+        <span class="text-sm font-semibold text-primary">Dec - 2024</span>
+        <h4 class="font-semibold text-lg">Advanced Analytics</h4>
+        <p class="text-text-muted">Integrated machine learning models to enhance sentiment detection and keyword extraction.
+          Now with advanced emoji analysis for deeper emotional insight.</p>
+      </div>
+      <div data-aos="fade-up">
+        <span class="text-sm font-semibold text-primary">April - 2025</span>
+        <h4 class="font-semibold text-lg">Platform Growth</h4>
+        <p class="text-text-muted">Expanded with a comprehensive dashboard, user profiles, and predictive analytics features.
+          Includes a robust database to maintain and track analysis history.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
+      <h2 class="text-3xl font-bold mb-2">Meet the Team</h2>
+      <p class="text-text-muted">The experts behind our powerful analytics platform</p>
+    </div>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
+      <div class="rounded-brand-lg shadow-card-base p-6 text-center max-w-xs" data-aos="fade-up">
+        <img src="{{ url_for('static', filename='img/profileU.svg') }}" alt="Team Member" class="mx-auto mb-4 h-20 w-20">
+        <h5 class="font-semibold">Umar Hussain</h5>
+        <p class="text-sm text-text-muted mb-2">System Designer</p>
+        <p class="text-xs text-text-muted mb-3">Experienced System Designer specializing in system modeling.
+          Crafting efficient, scalable architectures tailored to needs.</p>
+        <div class="flex justify-center gap-3 text-primary">
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fas fa-envelope"></i></a>
         </div>
-    </section>
-
-    <!-- Our Key Features Section -->
-    <section class="section bg-light about-features">
-        <div class="container">
-            <div class="section-header">
-                <h2>Key Features</h2>
-                <p>Discover what makes our analyzer the preferred choice for content creators and marketers</p>
-            </div>
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <i class="fas fa-chart-pie"></i>
-                            <h5>Sentiment Analysis</h5>
-                            <p>Advanced algorithms categorize comments as positive, negative, or neutral, providing a
-                                comprehensive view of audience reception.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <i class="fas fa-key"></i>
-                            <h5>Keyword Extraction</h5>
-                            <p>Automatically identifies and ranks frequently mentioned terms and phrases to highlight
-                                what matters most to your audience.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <h5>Real-time Dashboard</h5>
-                            <p>Interactive visualizations and metrics give you instant insights into your content
-                                performance and audience reactions.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="rounded-brand-lg shadow-card-base p-6 text-center max-w-xs" data-aos="fade-up" data-aos-delay="100">
+        <img src="{{ url_for('static', filename='img/profileSM.svg') }}" alt="Team Member" class="mx-auto mb-4 h-20 w-20">
+        <h5 class="font-semibold">Saleh Muhammad</h5>
+        <p class="text-sm text-text-muted mb-2">Lead Developer</p>
+        <p class="text-xs text-text-muted mb-3">Specializing in sentiment analysis algorithms and powerful data visualizations.
+          Transform raw data into clear emotions and actionable insights.</p>
+        <div class="flex justify-center gap-3 text-primary">
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fas fa-envelope"></i></a>
         </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="section how-it-works-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our System's Architecture</h2>
-                <p>Our simple five-step process delivers powerful analytics in minutes</p>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="{{ url_for('static', filename='img/about3.png') }}" alt="Analysis workflow diagram"
-                        class="img-fluid rounded-4 shadow">
-                </div>
-                <div class="col-lg-6">
-                    <ol class="how-it-works-list text-muted">
-                        <li><strong>Enter Video URL:</strong> Provide a valid YouTube video link to begin the analysis
-                            process. Our system supports any public YouTube video.</li>
-                        <li><strong>Fetch Comments:</strong> Our system retrieves comments using the YouTube API,
-                            gathering thousands of data points for analysis.</li>
-                        <li><strong>Analyze Text:</strong> NLP algorithms parse sentiment and keywords, categorizing
-                            comments and identifying trends in real-time.</li>
-                        <li><strong>Display Results:</strong> Interactive charts and tables show insights including
-                            sentiment distribution, keyword frequency, and engagement metrics.</li>
-                        <li><strong>Save History:</strong> Users can review past analyses in their profile, track
-                            changes over time, and export results for presentations.</li>
-                    </ol>
-                </div>
-            </div>
+      </div>
+      <div class="rounded-brand-lg shadow-card-base p-6 text-center max-w-xs" data-aos="fade-up" data-aos-delay="200">
+        <img src="{{ url_for('static', filename='img/profileSA.svg') }}" alt="Team Member" class="mx-auto mb-4 h-20 w-20">
+        <h5 class="font-semibold">Saadat Ali</h5>
+        <p class="text-sm text-text-muted mb-2">System Architect & Tester</p>
+        <p class="text-xs text-text-muted mb-3">Design robust system architectures tailored to our goals.
+          Thoroughly test every component to ensure reliability and performance.</p>
+        <div class="flex justify-center gap-3 text-primary">
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fas fa-envelope"></i></a>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Stats Section -->
-    <section class="section bg-light">
-        <div class="container">
-            <div class="section-header">
-                <h2>System's Limitation</h2>
-                <p>The current capabilities of System.</p>
-            </div>
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="stats-card">
-                        <i class="fas fa-users"></i>
-                        <h2>Fetch</h2>
-                        <p>Fetch only top level comments of users.</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="stats-card">
-                        <i class="fas fa-comments"></i>
-                        <h2>Comments Analyzed</h2>
-                        <p>Analyze upto 1000 comments</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="stats-card">
-                        <i class="fas fa-video"></i>
-                        <h2>Only Videos</h2>
-                        <p>Process only Videos</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Our Journey Timeline Section -->
-    <section class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Journey</h2>
-                <p>How we've evolved to better.</p>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-year">Sep - 2024</span>
-                        <h4>Project Launch</h4>
-                        <p>Initial developed as a research prototype for real-time sentiment analysis of YouTube comments.
-                            Focused solely on analyzing textual comments at a basic level with python Libraries.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-year">Dec - 2024</span>
-                        <h4>Advanced Analytics</h4>
-                        <p>Integrated machine learning models to enhance sentiment detection and keyword extraction.
-                            Now with advanced emoji analysis for deeper emotional insight.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-year">April - 2025</span>
-                        <h4>Platform Growth</h4>
-                        <p>Expanded with a comprehensive dashboard, user profiles, and predictive analytics features.
-                            Includes a robust database to maintain and track analysis history.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Meet the Team Section -->
-    <section class="section bg-light">
-        <div class="container">
-            <div class="section-header">
-                <h2>Meet the Team</h2>
-                <p>The experts behind our powerful analytics platform</p>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-sm-6 col-md-4 text-center mb-4 team-member">
-                    <div class="card analysis-card h-100 border-0 shadow-sm">
-                        <div class="card-body py-4">
-                            <img src="{{ url_for('static', filename='img/profileU.svg') }}" alt="Team Member"
-                                class="mb-4 mt-2"> <h5>Umar Hussain</h5>
-                            <p class="text-muted mb-2">System Designer</p>
-                            <p class="small text-muted px-3">Experienced System Designer specializing in system modeling.
-                                Crafting efficient, scalable architectures tailored to needs.</p>
-                            <div class="mt-3">
-                                <a href="#" class="text-primary mx-1"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" class="text-primary mx-1"><i class="fab fa-github"></i></a>
-                                <a href="#" class="text-primary mx-1"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 text-center mb-4 team-member">
-                    <div class="card analysis-card h-100 border-0 shadow-sm">
-                        <div class="card-body py-4">
-                            <img src="{{ url_for('static', filename='img/profileSM.svg') }}" alt="Team Member"
-                                class="mb-4">
-                            <h5>Saleh Muhammad</h5>
-                            <p class="text-muted mb-2">Lead Developer</p>
-                            <p class="small text-muted px-3">Specializing in sentiment analysis algorithms and powerful data visualizations.
-                                Transform raw data into clear emotions and actionable insights.</p>
-                            <div class="mt-3">
-                                <a href="#" class="text-primary mx-1"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" class="text-primary mx-1"><i class="fab fa-github"></i></a>
-                                <a href="#" class="text-primary mx-1"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 text-center mb-4 team-member">
-                    <div class="card analysis-card h-100 border-0 shadow-sm">
-                        <div class="card-body py-4">
-                            <img src="{{ url_for('static', filename='img/profileSA.svg') }}" alt="Team Member"
-                                class="mb-4">
-                            <h5>Saadat Ali</h5>
-                            <p class="text-muted mb-2">System Architect & Tester</p>
-                            <p class="small text-muted px-3">Design robust system architectures tailored to our goals.
-                                Thoroughly test every component to ensure reliability and performance.</p>
-                            <div class="mt-3">
-                                <a href="#" class="text-primary mx-1"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" class="text-primary mx-1"><i class="fab fa-github"></i></a>
-                                <a href="#" class="text-primary mx-1"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- Call to Action Section -->
-    <section class="cta-section text-center">
-        <div class="container">
-            <h2 class="display-5 fw-bold mb-4">Ready to Understand Your Audience?</h2>
-            <p class="lead mb-5">Join thousands of content creators who are using data to improve their videos.</p>
-            <a href="{{ url_for('auth.register') }}" class="btn  cta-btn">
-                Get Started Now <i class="fas fa-chevron-right ms-2"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                    <div class="footer-logo d-flex align-items-center">
-                        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
-                        <h4 class="mb-0">YouTube Comments Analyzer</h4>
-                    </div>
-                    <p class="footer-text">
-                        Professional AI-powered platform for YouTube creators and marketers to gain meaningful insights
-                        from video comments.
-                    </p>
-                    <div class="footer-social">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
-                    <div class="footer-links">
-                        <h5>Platform</h5>
-                        <ul>
-                            <li><a href="#features">Features</a></li>
-                            <li><a href="#how-it-works">How It Works</a></li>
-                            <li><a href="#">Pricing</a></li>
-                            <li><a href="#">API Documentation</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
-                    <div class="footer-links">
-                        <h5>Company</h5>
-                        <ul>
-                            <li><a href="{{ url_for('about') }}">About Us</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-4">
-                    <div class="footer-links">
-                        <h5>Support</h5>
-                        <ul>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Documentation</a></li>
-                            <li><a href="#">Community</a></li>
-                            <li><a href="#">Security</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div class="footer-links">
-                        <h5>Legal</h5>
-                        <ul>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                            <li><a href="#">Cookie Policy</a></li>
-                            <li><a href="#">GDPR Compliance</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>© 2025 Intelligent YouTube Comment Analyzer. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    
-    <script>
-        // Initialize AOS animation (only if AOS is used on this page)
-        AOS.init({
-            once: true,
-            offset: 100
-        });
-
-        // Change navbar background on scroll
-        window.addEventListener('scroll', function () {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Smooth scroll for anchor links (only if anchor links are used on this page)
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
-                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-
-                    // Close mobile menu if open
-                    const navbarCollapse = document.querySelector('.navbar-collapse');
-                    if (navbarCollapse.classList.contains('show')) {
-                        document.querySelector('.navbar-toggler').click();
-                    }
-                }
-            });
-        });
-
-        // Remove the animated counter and Intersection Observer code from here
-        // This code is only needed on the landing page (index.html)
-    </script>
-</body>
-
-</html>
+<section class="py-20 bg-brand-gradient text-white text-center">
+  <div class="max-w-3xl mx-auto px-4" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Understand Your Audience?</h2>
+    <p class="text-lg mb-8 text-white/90">Join thousands of content creators who are using data to improve their videos.</p>
+    <a href="{{ url_for('auth.register') }}" class="inline-flex items-center gap-2 bg-white text-primary-dark font-semibold px-8 py-3 rounded-brand-lg hover:bg-white/90 transition">
+      Get Started Now <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</section>
+{% endblock %}
