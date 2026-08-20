@@ -15,6 +15,11 @@ RUN pip install --no-cache-dir --user -r requirements.txt
 
 COPY --chown=user . .
 
+RUN python3 -c "import urllib.request; urllib.request.urlretrieve('https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.17/tailwindcss-linux-x64', 'tailwindcss-cli')" \
+    && chmod +x tailwindcss-cli \
+    && ./tailwindcss-cli -i static/tailwind-input.css -o static/tailwind.css --config tailwind.config.js --minify \
+    && rm tailwindcss-cli
+
 ENV PORT=7860
 EXPOSE 7860
 
