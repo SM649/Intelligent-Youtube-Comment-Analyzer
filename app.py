@@ -48,7 +48,7 @@ def about():
 @login_required
 def fetch_analysis(video_id):
     """Get analysis data from the database for a given video"""
-    analysis_data = db.get_analysis_by_video_id(video_id)
+    analysis_data = db.get_analysis_for_user(session.get('user'), video_id)
     if analysis_data:
         return jsonify({
             "video_id": analysis_data.get("video_id"),

@@ -1,4 +1,5 @@
 from firebase_client import get_firestore_client
+from google.cloud.firestore_v1.base_query import FieldFilter
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -11,7 +12,7 @@ class Database:
     def register_user(self, username: str, email: str, password: str, profile_image_b64: str = None) -> tuple[bool, str]:
         if self.users.document(username).get().exists:
             return False, "Username already taken"
-        if list(self.users.where('email', '==', email).limit(1).stream()):
+        if list(self.users.where(filter=FieldFilter('email', '==', email)).limit(1).stream()):
             return False, "Email already registered"
 
         user_doc = {
@@ -26,7 +27,7 @@ class Database:
         return True, "Registration successful"
 
     def verify_user(self, email, password):
-        matches = list(self.users.where('email', '==', email).limit(1).stream())
+        matches = list(self.users.where(filter=FieldFilter('email', '==', email)).limit(1).stream())
         if not matches:
             return False, None
         user = matches[0].to_dict()
@@ -35,7 +36,7 @@ class Database:
         return False, None
 
     def get_user_video_ids(self, username):
-        docs = [d.to_dict() for d in self.video_analysis.where('username', '==', username).stream()]
+        docs = [d.to_dict() for d in self.video_analysis.where(filter=FieldFilter('username', '==', username)).select(['video_id', 'Video_Title']).stream()]
         video_ids = [d["video_id"] for d in docs]
         video_titles = [d.get("Video_Title", "No Title Found") for d in docs]
         return video_ids, video_titles
@@ -51,13 +52,13 @@ class Database:
         self.video_analysis.add(analysis_data)
 
     def get_user_analysis_history(self, username):
-        return [d.to_dict() for d in self.video_analysis.where('username', '==', username).stream()]
+        return [d.to_dict() for d in self.video_analysis.where(filter=FieldFilter('username', '==', username)).stream()]
 
     def delete_analysis(self, username, video_id):
         docs = list(
             self.video_analysis
-                .where('username', '==', username)
-                .where('video_id', '==', video_id)
+                .where(filter=FieldFilter('username', '==', username))
+                .where(filter=FieldFilter('video_id', '==', video_id))
                 .stream()
         )
         for d in docs:
@@ -106,14 +107,14 @@ class Database:
         return True, "Profile updated successfully"
 
     def get_analysis_by_video_id(self, video_id):
-        matches = list(self.video_analysis.where('video_id', '==', video_id).limit(1).stream())
+        matches = list(self.video_analysis.where(filter=FieldFilter('video_id', '==', video_id)).limit(1).stream())
         return matches[0].to_dict() if matches else None
 
     def get_analysis_for_user(self, username, video_id):
         matches = list(
             self.video_analysis
-                .where('username', '==', username)
-                .where('video_id', '==', video_id)
+                .where(filter=FieldFilter('username', '==', username))
+                .where(filter=FieldFilter('video_id', '==', video_id))
                 .limit(1)
                 .stream()
         )

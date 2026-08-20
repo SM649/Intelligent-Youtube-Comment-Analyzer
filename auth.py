@@ -3,11 +3,34 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from database import Database
 from functools import wraps
 import base64
+import re
 
 MAX_PROFILE_IMAGE_BYTES = 500_000  # keeps base64-encoded field comfortably under Firestore's 1MiB/doc limit
+MAX_USERNAME_LENGTH = 100  # generous cap, well under Firestore's 1500-byte document ID limit
+USERNAME_RE = re.compile(r'^[A-Za-z0-9._-]+$')
 
 auth = Blueprint('auth', __name__)
 db = Database()
+
+
+def _validate_username(username):
+    """
+    Validate a username before it is used directly as a Firestore document ID
+    (see Database.register_user / self.users.document(username)).
+
+    Returns an error message string if invalid, or None if the username is safe to use.
+    """
+    if not username:
+        return "Username is required."
+    if len(username) > MAX_USERNAME_LENGTH:
+        return f"Username must be {MAX_USERNAME_LENGTH} characters or fewer."
+    if not USERNAME_RE.fullmatch(username):
+        return "Username may only contain letters, numbers, periods, underscores, and hyphens."
+    if username in ('.', '..'):
+        return "Username cannot be '.' or '..'."
+    if username.startswith('__') and username.endswith('__'):
+        return "Username cannot start and end with double underscores."
+    return None
 
 def login_required(f):
     @wraps(f)
@@ -35,9 +58,14 @@ def login():
 def register():
     if request.method == 'POST':
         # 1) grab basic form fields
-        username = request.form.get('username')
+        username = (request.form.get('username') or '').strip()
         email    = request.form.get('email')
         password = request.form.get('password')
+
+        # 1b) validate the username before it can ever become a Firestore document ID
+        username_error = _validate_username(username)
+        if username_error:
+            return render_template('register.html', error=username_error)
 
         # 2) handle optional profile image
         image_file = request.files.get('profile_image')
