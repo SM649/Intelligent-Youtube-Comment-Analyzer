@@ -4,7 +4,7 @@ python-dotenv
 werkzeug
 aiohttp
 langid
-transformers
+transformers==4.57.6
 torch
 emoji
 matplotlib
