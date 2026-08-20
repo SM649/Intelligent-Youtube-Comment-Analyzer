@@ -1,3 +1,12 @@
+---
+title: Intelligent YouTube Comment Analyzer
+emoji: 📊
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+---
+
 # 🎯 Intelligent YouTube Comment Analyzer
 
 > Uncover the true pulse of your audience. A web-based tool that applies deep learning (Transformer/BERT-based NLP) to YouTube comments, delivering actionable sentiment insights that help creators and marketers improve audience engagement.
