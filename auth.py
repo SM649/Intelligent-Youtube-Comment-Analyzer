@@ -4,6 +4,8 @@ from database import Database
 from functools import wraps
 import base64
 
+MAX_PROFILE_IMAGE_BYTES = 500_000  # keeps base64-encoded field comfortably under Firestore's 1MiB/doc limit
+
 auth = Blueprint('auth', __name__)
 db = Database()
 
@@ -42,6 +44,8 @@ def register():
         image_b64  = None
         if image_file and image_file.filename:
             raw_bytes = image_file.read()
+            if len(raw_bytes) > MAX_PROFILE_IMAGE_BYTES:
+                return render_template('register.html', error="Profile image too large — please use an image under 500KB.")
             image_b64 = base64.b64encode(raw_bytes).decode('utf-8')
 
         # 3) call your DB layer (now expecting 4th arg)
@@ -89,7 +93,15 @@ def profile_settings():
         image_file = request.files.get('profile_image')
         profile_b64 = None
         if image_file and image_file.filename:
-            profile_b64 = base64.b64encode(image_file.read()).decode('utf-8')
+            raw_bytes = image_file.read()
+            if len(raw_bytes) > MAX_PROFILE_IMAGE_BYTES:
+                return render_template(
+                    'profile_settings.html',
+                    username=username,
+                    profile=db.get_user_profile_image(username),
+                    error="Profile image too large — please use an image under 500KB."
+                )
+            profile_b64 = base64.b64encode(raw_bytes).decode('utf-8')
 
         # call your DB update function
         success, msg = db.update_user_profile(
