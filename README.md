@@ -208,18 +208,23 @@ flowchart LR
 
 ```
 Intelligent-Youtube-Comment-Analyzer/
-└── Intelligent Youtube Comment Analyzer/
-    └── Final Year Project V1/
-        ├── static/                 # CSS, JS, images
-        ├── templates/              # HTML templates (Flask/Jinja2)
-        ├── model/                  # Pretrained BERT model / weights
-        ├── app.py                  # Flask entry point
-        ├── utils/                  # Preprocessing & YouTube API helper functions
-        ├── requirements.txt        # Python dependencies
-        └── README.md
+├── static/                 # CSS, JS, images
+├── templates/              # HTML templates (Flask/Jinja2)
+├── app.py                  # Flask entry point
+├── auth.py                 # Authentication routes/helpers
+├── database.py             # MongoDB/GridFS data access layer
+├── analyses.py             # Sentiment analysis orchestration
+├── Model.py                # BERT/Transformer model loading & inference
+├── fetch_comments.py       # YouTube Data API comment fetching
+├── extract_id.py           # Video URL → video ID extraction
+├── emoji_analyzer.py       # Emoji-based sentiment helpers
+├── separate_emojis_and_text.py
+├── create_bar_chart.py     # Chart generation helpers
+├── key_insights.py         # Insight aggregation
+├── ternding_Topics.py      # Trending topics extraction
+├── requirements.txt        # Python dependencies
+└── README.md
 ```
-
-> 📝 Update this tree to match your actual folder/file names inside `Final Year Project V1/`.
 
 ---
 
@@ -236,7 +241,7 @@ Intelligent-Youtube-Comment-Analyzer/
 ```bash
 # 1. Clone the repository
 git clone https://github.com/SM649/Intelligent-Youtube-Comment-Analyzer.git
-cd "Intelligent-Youtube-Comment-Analyzer/Intelligent Youtube Comment Analyzer/Final Year Project V1"
+cd Intelligent-Youtube-Comment-Analyzer
 
 # 2. Create and activate a virtual environment
 python -m venv venv
