@@ -1,4 +1,4 @@
-MIT License
+MIT License with Attribution Requirement
 
 Copyright (c) 2026 Saleh-Muhammad
 
@@ -9,8 +9,16 @@ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+2. Any use of the Software, in whole or in part — including but not limited
+   to running it as a service, incorporating it into another project, or
+   distributing modified or unmodified copies — must give clear and visible
+   credit to the original author, Saleh-Muhammad, and a link to the original
+   project repository, in any associated documentation, "About"/"Credits"
+   section, or user-facing interface where such attribution would reasonably
+   be seen.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,

@@ -6,7 +6,7 @@
 ![Flask](https://img.shields.io/badge/Flask-Backend-black?logo=flask)
 ![YouTube Data API](https://img.shields.io/badge/YouTube-Data%20API%20v3-red?logo=youtube)
 ![Transformers](https://img.shields.io/badge/NLP-BERT%20%2F%20Transformers-yellow?logo=huggingface)
-![License](https://img.shields.io/badge/License-MIT-green)
+![License](https://img.shields.io/badge/License-MIT%20with%20Attribution-green)
 
 ---
 
@@ -327,7 +327,7 @@ Contributions are welcome!
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License with Attribution Requirement** — free to use, modify, and distribute, but credit to the original author must be given wherever the project is used. See the [LICENSE](LICENSE) file for details.
 
 ---
 
