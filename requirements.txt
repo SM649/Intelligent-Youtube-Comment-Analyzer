@@ -1,0 +1,13 @@
+flask
+firebase-admin
+python-dotenv
+werkzeug
+aiohttp
+langid
+transformers
+torch
+emoji
+matplotlib
+numpy
+scikit-learn
+nltk

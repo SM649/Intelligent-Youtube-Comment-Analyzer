@@ -1,9 +1,10 @@
+import os
 import aiohttp
 import asyncio
 from langid import classify  # Faster alternative to langdetect
 import base64
 
-API_KEY = "Your API key here."
+API_KEY = os.environ["YOUTUBE_API_KEY"]
 BASE_URL = "https://www.googleapis.com/youtube/v3/commentThreads"
 VIDEO_BASE_URL = "https://www.googleapis.com/youtube/v3/videos"
 
