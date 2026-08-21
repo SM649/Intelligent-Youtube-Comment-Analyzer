@@ -1,6 +1,6 @@
-<nav id="sidebar" class="fixed top-0 left-0 h-screen w-sidebar bg-brand-gradient text-white shadow-card-base z-40 flex flex-col transition-all duration-300 overflow-y-auto -ml-sidebar md:ml-0">
+<nav id="sidebar" class="fixed top-0 left-0 h-screen w-sidebar bg-brand-gradient text-white shadow-card-base z-40 flex flex-col transition-all duration-300 overflow-y-auto" :class="sidebarOpen ? 'ml-0' : '-ml-sidebar md:ml-0'">
   <div class="relative px-5 py-5 border-b border-white/10">
-    <button id="sidebarClose" class="md:hidden absolute right-4 top-4 text-2xl leading-none">&times;</button>
+    <button type="button" @click="sidebarOpen = false" class="md:hidden absolute right-4 top-4 text-2xl leading-none">&times;</button>
     <div class="flex items-center gap-2">
       <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="h-8 w-8">
       <h5 class="text-base font-semibold m-0">Comment Analyzer</h5>

@@ -15,13 +15,13 @@
   {% block head_extra %}{% endblock %}
 </head>
 <body class="font-sans text-text-dark bg-app-bg">
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen" x-data="{ sidebarOpen: false }">
     {% include "_navbar_dashboard.html" %}
 
     <div id="content" class="ml-0 w-full md:ml-sidebar md:w-[calc(100%-theme(spacing.sidebar))] min-h-screen transition-all duration-300">
       <nav id="topbar" class="bg-surface shadow-navbar mb-5 px-4 py-2">
         <div class="flex items-center justify-between">
-          <button type="button" id="sidebarCollapse" class="text-primary-dark px-3 py-2 rounded-brand-md hover:bg-primary-dark/10 transition">
+          <button type="button" @click="sidebarOpen = !sidebarOpen" class="text-primary-dark px-3 py-2 rounded-brand-md hover:bg-primary-dark/10 transition">
             <i class="fas fa-bars"></i>
           </button>
 
