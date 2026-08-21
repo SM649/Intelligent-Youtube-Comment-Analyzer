@@ -16,9 +16,9 @@
 </div>
 
 {% if modal_data %}
-<div class="rounded-brand-lg shadow-card-base bg-white p-4 mb-6">
+<div class="rounded-brand-lg shadow-card-base bg-surface p-4 mb-6">
   <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4">
-    <img src="data:image/jpeg;base64,{{modal_data.thumbnail}}" alt="Video Thumbnail" class="rounded-brand-md w-40">
+    <img src="data:image/jpeg;base64,{{modal_data.thumbnail}}" alt="Video Thumbnail" class="rounded-brand-md w-40" loading="lazy">
     <div>
       <h5 class="font-semibold text-lg">{{ modal_data.Video_Title }}</h5>
       <p class="text-sm mb-1"><i class="fas fa-user-circle me-1"></i> {{ modal_data.Channel_Name }}</p>
@@ -35,7 +35,7 @@
      data-positive="{{ modal_data.positive_count | default(0) }}"
      data-negative="{{ modal_data.negative_count | default(0) }}"
      data-neutral="{{ modal_data.neutral_count | default(0) }}">
-  <div class="rounded-brand-lg shadow-card-base bg-white p-5">
+  <div class="rounded-brand-lg shadow-card-base bg-surface p-5">
     <div class="flex justify-between items-center mb-2">
       <h5 class="font-semibold"><i class="fas fa-smile me-2"></i>Positive Comments</h5>
       <span class="h-10 w-10 rounded-full bg-positive/10 text-positive flex items-center justify-center"><i class="fas fa-smile"></i></span>
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <div class="rounded-brand-lg shadow-card-base bg-white p-5">
+  <div class="rounded-brand-lg shadow-card-base bg-surface p-5">
     <div class="flex justify-between items-center mb-2">
       <h5 class="font-semibold"><i class="fas fa-frown me-2"></i>Negative Comments</h5>
       <span class="h-10 w-10 rounded-full bg-negative/10 text-negative flex items-center justify-center"><i class="fas fa-frown"></i></span>
@@ -59,7 +59,7 @@
     </div>
   </div>
 
-  <div class="rounded-brand-lg shadow-card-base bg-white p-5">
+  <div class="rounded-brand-lg shadow-card-base bg-surface p-5">
     <div class="flex justify-between items-center mb-2">
       <h5 class="font-semibold"><i class="fas fa-meh me-2"></i>Neutral Comments</h5>
       <span class="h-10 w-10 rounded-full bg-neutral/10 text-neutral flex items-center justify-center"><i class="fas fa-meh"></i></span>
@@ -74,30 +74,30 @@
 
 <div class="grid md:grid-cols-2 gap-4 mb-6">
   {% if modal_data.bar_chart_id %}
-  <div class="rounded-brand-lg shadow-card-base bg-white overflow-hidden">
+  <div class="rounded-brand-lg shadow-card-base bg-surface overflow-hidden">
     <div class="px-4 py-3 border-b border-border-lighter">
       <h5 class="font-semibold m-0"><i class="fas fa-chart-bar me-2"></i>Comments Analysis</h5>
     </div>
     <div class="p-4 text-center">
-      <img class="max-w-full mx-auto" src="data:image/png;base64,{{ modal_data.bar_chart_id }}" alt="Comments Bar Chart">
+      <img class="max-w-full mx-auto" src="data:image/png;base64,{{ modal_data.bar_chart_id }}" alt="Comments Bar Chart" loading="lazy">
     </div>
   </div>
   {% endif %}
 
   {% if modal_data.emoji_chart_id %}
-  <div class="rounded-brand-lg shadow-card-base bg-white overflow-hidden">
+  <div class="rounded-brand-lg shadow-card-base bg-surface overflow-hidden">
     <div class="px-4 py-3 border-b border-border-lighter">
       <h5 class="font-semibold m-0"><i class="far fa-laugh-beam me-2"></i>Emoji Analysis</h5>
     </div>
     <div class="p-4 text-center">
-      <img class="max-w-full mx-auto" src="data:image/png;base64,{{ modal_data.emoji_chart_id }}" alt="Emoji Chart">
+      <img class="max-w-full mx-auto" src="data:image/png;base64,{{ modal_data.emoji_chart_id }}" alt="Emoji Chart" loading="lazy">
     </div>
   </div>
   {% endif %}
 </div>
 
 <div class="grid lg:grid-cols-12 gap-4">
-  <div class="lg:col-span-8 rounded-brand-lg shadow-card-base bg-white p-4">
+  <div class="lg:col-span-8 rounded-brand-lg shadow-card-base bg-surface p-4">
     <h5 class="font-semibold mb-3"><i class="fas fa-lightbulb me-2"></i>Trending Topics &amp; Key Insights</h5>
     <h6 class="text-sm font-semibold mb-2"><i class="fas fa-hashtag me-2"></i>Trending Topics:</h6>
     {% if modal_data.trending_topics %}
@@ -121,7 +121,7 @@
     </div>
   </div>
 
-  <div class="lg:col-span-4 rounded-brand-lg shadow-card-base bg-white p-4">
+  <div class="lg:col-span-4 rounded-brand-lg shadow-card-base bg-surface p-4">
     <h5 class="font-semibold mb-3"><i class="far fa-grin-beam me-2"></i>Emoji Usage Summary</h5>
     <table class="w-full text-sm">
       <thead>
