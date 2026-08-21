@@ -6,3 +6,40 @@
   display: none !important;
 }
 
+:root {
+  --clay-base: #e9edf5;
+  --clay-surface: #f3f6fb;
+  --clay-text: #2b3550;
+  --clay-muted: #5b6478;
+  --clay-shadow-dark: #c9d1e0;
+  --clay-shadow-light: #ffffff;
+  --clay-border: #e2e8f0;
+  --clay-sidebar-bg: #dfe4ee;
+  --clay-blue: #2f6fed;
+  --clay-coral: #ff7a72;
+  --clay-neutral: #d69e00;
+}
+
+.dark {
+  --clay-base: #1a2036;
+  --clay-surface: #222b47;
+  --clay-text: #e2e8f0;
+  --clay-muted: #94a3b8;
+  --clay-shadow-dark: #11152355;
+  --clay-shadow-light: #2c3760;
+  --clay-border: #26314f;
+  --clay-sidebar-bg: #15192c;
+  --clay-blue: #5ac8fa;
+  --clay-coral: #ff7a72;
+  --clay-neutral: #f0b429;
+}
+
+@layer components {
+  .clay-blob {
+    border-radius: 9999px;
+    position: absolute;
+    pointer-events: none;
+    box-shadow: inset 10px 10px 20px var(--clay-shadow-dark), inset -10px -10px 20px var(--clay-shadow-light);
+  }
+}
+
