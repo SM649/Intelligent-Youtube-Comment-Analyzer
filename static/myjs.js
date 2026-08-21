@@ -1,31 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // --- Sidebar, Theme, Spinner Logic (from indexupd.html) ---
-  const sidebar = document.getElementById('sidebar');
-  const content = document.getElementById('content');
-  const toggleButton = document.getElementById('sidebarCollapse');
-  const closeButton = document.getElementById('sidebarClose');
-
-  if (toggleButton) {
-      toggleButton.addEventListener('click', function () {
-          sidebar.classList.toggle('collapsed');
-          content.classList.toggle('expanded');
-      });
-  }
-  if (closeButton) {
-      closeButton.addEventListener('click', function () {
-          sidebar.classList.add('collapsed');
-          content.classList.remove('expanded'); // Adjust if necessary
-      });
-  }
-
-
-  
-
-
-  
-
-  
-
   const form = document.querySelector('form');
   const loadingSpinner = document.getElementById('loadingSpinner');
 

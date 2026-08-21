@@ -6,13 +6,3 @@
   display: none !important;
 }
 
-@layer utilities {
-  #sidebar.collapsed {
-    margin-left: -280px;
-  }
-
-  #content.expanded {
-    margin-left: 0;
-    width: 100%;
-  }
-}
