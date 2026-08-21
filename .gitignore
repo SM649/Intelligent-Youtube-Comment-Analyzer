@@ -2,3 +2,4 @@
 firebase-service-account.json
 venv/
 __pycache__/
+.tailwindcss-cli

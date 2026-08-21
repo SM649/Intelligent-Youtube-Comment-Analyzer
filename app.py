@@ -91,11 +91,8 @@ def analyze():
     # not a standard YouTube URL.
     if not video_id:
         error_alert = '''
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong><i class="fas fa-exclamation-triangle"></i> Error Message</strong>
-                <p>The YouTube link you entered is not valid. Please check the URL and try again.
-                </p>
-                <button type="button" class="btn2 btn-close " data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="rounded-brand-sm px-4 py-3 text-sm font-medium bg-negative/10 text-negative border border-negative/30" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i><strong>Error:</strong> The YouTube link you entered is not valid. Please check the URL and try again.
             </div>
         '''
         return render_template('index.html', error_message=error_alert, username=session.get('user'), videos=videos, profile=profile_image_b64)
@@ -136,9 +133,8 @@ def analyze():
         results, analysis_data = perform_video_analysis(video_link)
         if not results:
             error_alert = f'''
-                <div class="alert alert-custom alert-dismissible fade show" role="alert">
-                    <strong>Error:</strong> {analysis_data}
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="rounded-brand-sm px-4 py-3 text-sm font-medium bg-negative/10 text-negative border border-negative/30" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i><strong>Error:</strong> {analysis_data}
                 </div>
             '''
             return render_template('index.html', error_message=error_alert, username=session.get('user'), videos=videos, profile=profile_image_b64)
