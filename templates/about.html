@@ -3,14 +3,15 @@
 {% block title %}About Us – Intelligent YouTube Comment Analyzer{% endblock %}
 
 {% block content %}
-<section class="text-center py-24 md:py-32 bg-brand-gradient text-white">
-  <div class="max-w-4xl mx-auto px-4" data-aos="fade-up">
-    <h1 class="text-4xl md:text-5xl font-bold mb-4">About Our System</h1>
-    <p class="text-lg md:text-xl mb-8 text-white/90">
+<section class="relative overflow-hidden text-center py-24 md:py-32 bg-app-bg">
+  <div class="clay-blob" style="width:180px;height:180px;top:-60px;left:-60px;background:var(--clay-surface);"></div>
+  <div class="relative max-w-4xl mx-auto px-4" data-aos="fade-up">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-text-dark">About Our System</h1>
+    <p class="text-lg md:text-xl mb-8 text-text-muted">
       Intelligent YouTube Comment Analyzer turns raw comments into clear insights for creators and
       marketers alike. Discover what your audience truly thinks.
     </p>
-    <a href="{{ url_for('auth.register') }}" class="inline-flex items-center gap-2 bg-white text-primary-dark font-semibold px-8 py-3 rounded-brand-lg hover:bg-white/90 transition">
+    <a href="{{ url_for('auth.register') }}" class="inline-flex items-center gap-2 bg-brand-gradient text-white font-semibold px-8 py-3 rounded-brand-lg shadow-button-primary hover:shadow-button-primary-hover transition">
       Get Started <i class="bi bi-arrow-right"></i>
     </a>
   </div>
@@ -45,7 +46,7 @@
   </div>
 </section>
 
-<section class="py-20 bg-white">
+<section class="py-20 bg-surface">
   <div class="max-w-6xl mx-auto px-4">
     <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
       <h2 class="text-3xl font-bold mb-2">Key Features</h2>
@@ -98,7 +99,7 @@
   </div>
 </section>
 
-<section class="py-20 bg-white">
+<section class="py-20 bg-surface">
   <div class="max-w-6xl mx-auto px-4">
     <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
       <h2 class="text-3xl font-bold mb-2">System's Limitation</h2>
@@ -153,7 +154,7 @@
   </div>
 </section>
 
-<section class="py-20 bg-white">
+<section class="py-20 bg-surface">
   <div class="max-w-6xl mx-auto px-4">
     <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
       <h2 class="text-3xl font-bold mb-2">Meet the Team</h2>
@@ -200,11 +201,12 @@
   </div>
 </section>
 
-<section class="py-20 bg-brand-gradient text-white text-center">
-  <div class="max-w-3xl mx-auto px-4" data-aos="fade-up">
-    <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Understand Your Audience?</h2>
-    <p class="text-lg mb-8 text-white/90">Join thousands of content creators who are using data to improve their videos.</p>
-    <a href="{{ url_for('auth.register') }}" class="inline-flex items-center gap-2 bg-white text-primary-dark font-semibold px-8 py-3 rounded-brand-lg hover:bg-white/90 transition">
+<section class="relative overflow-hidden py-20 bg-app-bg text-center">
+  <div class="clay-blob" style="width:150px;height:150px;top:-40px;right:-40px;background:var(--clay-surface);"></div>
+  <div class="relative max-w-3xl mx-auto px-4" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-text-dark">Ready to Understand Your Audience?</h2>
+    <p class="text-lg mb-8 text-text-muted">Join thousands of content creators who are using data to improve their videos.</p>
+    <a href="{{ url_for('auth.register') }}" class="inline-flex items-center gap-2 bg-brand-gradient text-white font-semibold px-8 py-3 rounded-brand-lg shadow-button-primary hover:shadow-button-primary-hover transition">
       Get Started Now <i class="fas fa-chevron-right"></i>
     </a>
   </div>
