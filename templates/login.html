@@ -1,219 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login – Intelligent YouTube Comment Analyzer</title>
-  <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}">
+{% extends "base_public.html" %}
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% block title %}Login – Intelligent YouTube Comment Analyzer{% endblock %}
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-
-  <!--  -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
-
-  <style>
-    
-  </style>
-</head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top ">
-    <div class="container">
-      <a class="navbar-brand text-white text-decoration-none" href="{{ url_for('landing') }}">
-        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="logo">
-        Intelligent YouTube Comments Analyzer
-      </a>
-
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item mx-2">
-            <a class="nav-link text-white" href="{{ url_for('landing') }}">Home</a>
-          </li>
-          <li class="nav-item mx-2">
-            <a class="nav-link text-white" href="{{ url_for('about') }}">About</a>
-          </li>
-          <li class="nav-item mx-2">
-            <a class="nav-link text-white active" href="{{ url_for('auth.login') }}">
-              <i class="fas fa-sign-in-alt me-1"></i> Login
-            </a>
-          </li>
-          <li class="nav-item mx-2">
-            <a class="nav-link text-white btn py-2 px-3" href="{{ url_for('auth.register') }}">
-              <i class="fas fa-user-plus me-1"></i> Register
-            </a>
-          </li>
-        </ul>
-      </div>
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-12">
+  <div class="rounded-brand-lg shadow-card-base overflow-hidden bg-white" data-aos="fade-up" data-aos-duration="1000">
+    <div class="bg-brand-gradient text-white text-center py-10 px-6">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="mx-auto mb-4 h-16 w-16">
+      <h2 class="text-2xl font-bold mb-2">Welcome Back!</h2>
+      <p class="text-white/90">Sign in to your account to access your YouTube comment analytics dashboard</p>
     </div>
-  </nav>
 
-  <div class="login-container ">
-    <div class="col-12 col-md-8 col-lg-6" data-aos="fade-up" data-aos-duration="1000"></div>
-    <div class="card login-card">
-      <div class="login-header">
-        <div class="content">
-          <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="" width="80">
-          <h2 class="fw-bold mb-3">Welcome Back!</h2>
-          <p class="mb-0">Sign in to your account to access your YouTube comment analytics dashboard</p>
-        </div>
-      </div>
-    
-      <div class="card-content-below-header"> <div class="row g-0">
-          <div class="col-lg-7">
-            <div class="login-body"> {% if error %}
-                <div class="alert alert-danger" role="alert">
-                  <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
-                </div>
-              {% endif %}
-    
-              <form method="POST" action="{{ url_for('auth.login') }}">
-                <div class="mb-4">
-                  <label for="email" class="form-label">Email Address</label>
-                  <div class="input-group">
-                    <span class="input-group-text bg-light border-light"><i class="bi bi-envelope"></i></span>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
-                  </div>
-                </div>
-    
-                <div class="mb-4">
-                  <div class="d-flex justify-content-between mb-1"> <label for="password" class="form-label">Password</label>
-                    
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-text bg-light border-light"><i class="bi bi-lock"></i></span>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                      <i class="bi bi-eye-fill" minlength="5" id="togglePasswordIcon"></i>
-                    </button>
-                  </div>
-                </div>
-    
-                
-    
-                <div class="d-grid mb-4">
-                  <button type="submit" class="btn login-btn">
-                    Sign In <i class="bi bi-arrow-right animated-arrow"></i>
-                  </button>
-                </div>
-              </form>
-    
-              <div class="divider">
-                <span>OR</span>
-              </div>
-    
-              
-    
-              <p class="text-center mt-4 mb-0">
-                Don't have an account yet?
-                <a href="{{ url_for('auth.register') }}" class="text-decoration-none fw-medium">Create an account</a>
-              </p>
+    <div class="grid lg:grid-cols-12">
+      <div class="lg:col-span-7 p-8">
+        <form method="POST" action="{{ url_for('auth.login') }}" class="space-y-5">
+          <div>
+            <label for="email" class="block text-sm font-medium mb-1">Email Address</label>
+            <div class="flex items-center rounded-brand-md border border-border-light overflow-hidden">
+              <span class="px-3 bg-app-bg text-text-muted"><i class="bi bi-envelope"></i></span>
+              <input type="email" id="email" name="email" placeholder="name@example.com" required
+                     class="flex-1 px-3 py-2 outline-none">
             </div>
           </div>
-    
-          <div class="col-lg-5 d-none d-lg-block">
-            <div class="login-features h-100">
-              <h4 class="fw-bold mb-4">Why Choose Our Platform?</h4>
-    
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="bi bi-graph-up"></i>
-                </div>
-                <div>
-                  <h5 class="mb-2">Advanced Analytics</h5>
-                  <p class="text-muted mb-0">Get detailed insights from your YouTube comments with AI-powered analysis</p>
-                </div>
-              </div>
-    
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="bi bi-lightning"></i>
-                </div>
-                <div>
-                  <h5 class="mb-2">Fast Processing</h5>
-                  <p class="text-muted mb-0">Our system analyzes thousands of comments in seconds</p>
-                </div>
-              </div>
-    
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <i class="bi bi-shield-check"></i>
-                </div>
-                <div>
-                  <h5 class="mb-2">Secure & Reliable</h5>
-                  <p class="text-muted mb-0">Your data is protected with enterprise-grade security</p>
-                </div>
-              </div>
+
+          <div x-data="{ showPassword: false }">
+            <label for="password" class="block text-sm font-medium mb-1">Password</label>
+            <div class="flex items-center rounded-brand-md border border-border-light overflow-hidden">
+              <span class="px-3 bg-app-bg text-text-muted"><i class="bi bi-lock"></i></span>
+              <input :type="showPassword ? 'text' : 'password'" id="password" name="password" required
+                     class="flex-1 px-3 py-2 outline-none">
+              <button type="button" @click="showPassword = !showPassword" class="px-3 text-text-muted" aria-label="Toggle password visibility">
+                <i class="bi" :class="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3 rounded-brand-lg bg-brand-gradient text-white font-semibold shadow-button-primary hover:shadow-button-primary-hover transition flex items-center justify-center gap-2">
+            Sign In <i class="bi bi-arrow-right"></i>
+          </button>
+        </form>
+
+        <div class="text-center text-text-muted text-sm my-5">OR</div>
+
+        <p class="text-center text-sm">
+          Don't have an account yet?
+          <a href="{{ url_for('auth.register') }}" class="font-medium text-primary hover:underline">Create an account</a>
+        </p>
+      </div>
+
+      <div class="hidden lg:block lg:col-span-5 bg-app-bg p-8">
+        <h4 class="font-bold text-lg mb-4">Why Choose Our Platform?</h4>
+        <div class="space-y-5">
+          <div class="flex gap-3">
+            <div class="h-10 w-10 rounded-full bg-brand-gradient text-white flex items-center justify-center shrink-0"><i class="bi bi-graph-up"></i></div>
+            <div>
+              <h5 class="font-semibold mb-1">Advanced Analytics</h5>
+              <p class="text-sm text-text-muted">Get detailed insights from your YouTube comments with AI-powered analysis</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <div class="h-10 w-10 rounded-full bg-brand-gradient text-white flex items-center justify-center shrink-0"><i class="bi bi-lightning"></i></div>
+            <div>
+              <h5 class="font-semibold mb-1">Fast Processing</h5>
+              <p class="text-sm text-text-muted">Our system analyzes thousands of comments in seconds</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <div class="h-10 w-10 rounded-full bg-brand-gradient text-white flex items-center justify-center shrink-0"><i class="bi bi-shield-check"></i></div>
+            <div>
+              <h5 class="font-semibold mb-1">Secure &amp; Reliable</h5>
+              <p class="text-sm text-text-muted">Your data is protected with enterprise-grade security</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-    <footer class="login-footer">
-      <div class="container">
-        <p class="text-muted mb-0">© 2025 Intelligent YouTube Comment Analyzer. All Rights Reserved.</p>
-      </div>
-    </footer>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-          crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-  <script src="{{ url_for('static', filename='myjs.js') }}"></script>
-
-  <script>
-    // Initialize AOS animation
-    AOS.init({
-      once: true,
-      offset: 100
-    });
-
-    // This script is for changing navbar background on scroll,
-    // less relevant for a fixed background page but keeping as per original structure.
-    window.addEventListener('scroll', function() {
-      const navbar = document.querySelector('.navbar');
-      if(window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
-
-     // Get references to the password input and the toggle button/icon
-     const togglePasswordButton = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-    const togglePasswordIcon = document.getElementById('togglePasswordIcon');
-
-    // Add a click event listener to the button
-    togglePasswordButton.addEventListener('click', function () {
-      // Toggle the type attribute of the password input
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-
-      // Toggle the eye icon
-      if (type === 'password') {
-        // If input is password, show the 'eye-fill' icon (password hidden)
-        togglePasswordIcon.classList.remove('bi-eye-slash-fill');
-        togglePasswordIcon.classList.add('bi-eye-fill');
-      } else {
-        // If input is text, show the 'eye-slash-fill' icon (password visible)
-        togglePasswordIcon.classList.remove('bi-eye-fill');
-        togglePasswordIcon.classList.add('bi-eye-slash-fill');
-      }
-    });
-  </script>
-</body>
-</html>
+</div>
+{% endblock %}

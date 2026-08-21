@@ -50,7 +50,8 @@ def login():
         if success:
             session['user'] = user['username']
             return redirect(url_for('index'))
-        return render_template('login.html', error="Invalid email or password")
+        flash("Invalid email or password", "error")
+        return redirect(url_for('auth.login'))
     
     return render_template('login.html')
 
