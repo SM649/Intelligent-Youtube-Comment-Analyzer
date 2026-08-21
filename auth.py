@@ -66,7 +66,8 @@ def register():
         # 1b) validate the username before it can ever become a Firestore document ID
         username_error = _validate_username(username)
         if username_error:
-            return render_template('register.html', error=username_error)
+            flash(username_error, "error")
+            return redirect(url_for('auth.register'))
 
         # 2) handle optional profile image
         image_file = request.files.get('profile_image')
@@ -74,7 +75,8 @@ def register():
         if image_file and image_file.filename:
             raw_bytes = image_file.read()
             if len(raw_bytes) > MAX_PROFILE_IMAGE_BYTES:
-                return render_template('register.html', error="Profile image too large — please use an image under 500KB.")
+                flash("Profile image too large — please use an image under 500KB.", "error")
+                return redirect(url_for('auth.register'))
             image_b64 = base64.b64encode(raw_bytes).decode('utf-8')
 
         # 3) call your DB layer (now expecting 4th arg)
@@ -88,7 +90,8 @@ def register():
         if success:
             return redirect(url_for('auth.login'))
         else:
-            return render_template('register.html', error=message)
+            flash(message, "error")
+            return redirect(url_for('auth.register'))
 
     # GET => just show form
     return render_template('register.html')
