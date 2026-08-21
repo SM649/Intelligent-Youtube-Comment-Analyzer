@@ -47,7 +47,7 @@
             <label for="password" class="block text-sm font-medium mb-1">Password</label>
             <div class="flex items-center rounded-brand-md border border-border-light overflow-hidden">
               <span class="px-3 bg-app-bg text-text-muted"><i class="bi bi-lock"></i></span>
-              <input :type="showPassword ? 'text' : 'password'" id="password" name="password" required minlength="5"
+              <input type="password" :type="showPassword ? 'text' : 'password'" id="password" name="password" required minlength="5"
                      class="flex-1 px-3 py-2 outline-none">
               <button type="button" @click="showPassword = !showPassword" class="px-3 text-text-muted" aria-label="Toggle password visibility">
                 <i class="bi" :class="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
