@@ -1,5 +1,5 @@
-<nav id="sidebar" class="fixed top-0 left-0 h-screen w-sidebar bg-brand-gradient text-white shadow-card-base z-40 flex flex-col transition-all duration-300 overflow-y-auto -ml-sidebar md:ml-0" :class="sidebarOpen && '!ml-0'" @click.outside="sidebarOpen = false">
-  <div class="relative px-5 py-5 border-b border-white/10">
+<nav id="sidebar" class="fixed top-0 left-0 h-screen w-sidebar bg-sidebar-bg text-text-dark z-40 flex flex-col transition-all duration-300 overflow-y-auto -ml-sidebar md:ml-0" :class="sidebarOpen && '!ml-0'" @click.outside="sidebarOpen = false">
+  <div class="relative px-5 py-5 border-b border-border-light">
     <button type="button" @click="sidebarOpen = false" aria-label="Close sidebar" class="md:hidden absolute right-4 top-4 text-2xl leading-none">&times;</button>
     <div class="flex items-center gap-2">
       <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="h-8 w-8">
@@ -12,21 +12,21 @@
       <li class="my-1">
         <a href="{{ url_for('index') }}"
            class="flex items-center gap-2 px-5 py-3 text-sm border-l-4 transition
-                  {{ 'bg-white/20 border-white opacity-100' if request.endpoint == 'index' else 'border-transparent opacity-85 hover:bg-white/15 hover:border-white/50 hover:opacity-100' }}">
+                  {{ 'border-[var(--clay-coral)] text-[var(--clay-coral)] font-semibold' if request.endpoint == 'index' else 'border-transparent text-text-muted hover:text-text-dark' }}">
           <i class="bi bi-house-fill"></i> Dashboard
         </a>
       </li>
       <li class="my-1">
         <a href="{{ url_for('history') }}"
            class="flex items-center gap-2 px-5 py-3 text-sm border-l-4 transition
-                  {{ 'bg-white/20 border-white opacity-100' if request.endpoint in ('history', 'auth.history') else 'border-transparent opacity-85 hover:bg-white/15 hover:border-white/50 hover:opacity-100' }}">
+                  {{ 'border-[var(--clay-coral)] text-[var(--clay-coral)] font-semibold' if request.endpoint in ('history', 'auth.history') else 'border-transparent text-text-muted hover:text-text-dark' }}">
           <i class="bi bi-clock-history"></i> History
         </a>
       </li>
       <li class="my-1">
         <a href="{{ url_for('auth.profile_settings') }}"
            class="flex items-center gap-2 px-5 py-3 text-sm border-l-4 transition
-                  {{ 'bg-white/20 border-white opacity-100' if request.endpoint == 'auth.profile_settings' else 'border-transparent opacity-85 hover:bg-white/15 hover:border-white/50 hover:opacity-100' }}">
+                  {{ 'border-[var(--clay-coral)] text-[var(--clay-coral)] font-semibold' if request.endpoint == 'auth.profile_settings' else 'border-transparent text-text-muted hover:text-text-dark' }}">
           <i class="bi bi-gear-fill"></i> Profile Settings
         </a>
       </li>
