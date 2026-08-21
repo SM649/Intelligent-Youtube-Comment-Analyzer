@@ -63,9 +63,11 @@
       </div>
 
       <div class="text-right">
-        <button class="delete-history-btn inline-flex items-center gap-1 text-sm text-white bg-negative hover:bg-negative/90 px-3 py-1.5 rounded-brand-md transition" data-video-id="{{ analysis.video_id }}">
-          <i class="bi bi-trash"></i> Delete
-        </button>
+        <form method="post" action="{{ url_for('delete_history', video_id=analysis.video_id) }}" onsubmit="return confirm('Are you sure you want to delete this Analyses?');">
+          <button type="submit" class="inline-flex items-center gap-1 text-sm text-white bg-negative hover:bg-negative/90 px-3 py-1.5 rounded-brand-md transition">
+            <i class="bi bi-trash"></i> Delete
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -74,42 +76,4 @@
 {% else %}
 <p class="text-text-muted">No analysis history available.</p>
 {% endif %}
-{% endblock %}
-
-{% block scripts %}
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.delete-history-btn').forEach(button => {
-      button.addEventListener('click', function () {
-        const videoId = this.dataset.videoId;
-        const card = this.closest('.video-card');
-        if (!card) {
-          console.error('Could not find .video-card parent');
-          return;
-        }
-
-        if (!confirm('Are you sure you want to delete this Analyses?')) {
-          return;
-        }
-
-        fetch(`/delete_history/${videoId}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-        })
-          .then(res => res.json())
-          .then(data => {
-            if (data.success) {
-              card.remove();
-            } else {
-              alert('Failed to delete: ' + data.message);
-            }
-          })
-          .catch(err => {
-            console.error('Error deleting history:', err);
-            alert('An error occurred.');
-          });
-      });
-    });
-  });
-</script>
 {% endblock %}

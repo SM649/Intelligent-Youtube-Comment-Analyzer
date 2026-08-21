@@ -2,9 +2,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import os
-from flask import Flask, render_template, request, session, jsonify
-from auth import auth, login_required
+from flask import Flask, render_template, request, session, redirect, url_for, flash
+from auth import auth
 from database import Database
+from dashboard import render_dashboard
 from analyses import perform_video_analysis  # helper function in a separate module
 from extract_id import extract_video_id  # needed to extract video id
 
@@ -22,19 +23,11 @@ def landing():
 
 # Existing Dashboard Route (formerly '/')
 @app.route('/dashboard')
-@login_required
 def index():
     """Renders the user dashboard after login."""
-    # Fetch saved video IDs for the logged-in user
-    profile_image_b64 = db.get_user_profile_image(session.get('user'))
-    video_ids,video_titles = db.get_user_video_ids(session.get('user'))
-    videos = []
-    for vid, title in zip(video_ids, video_titles):
-                                                     videos.append({
-                                                         "video_id": vid,
-                                                         "Video_Title": title
-                                                     })
-    return render_template('index.html', username=session.get('user'), videos=videos, profile=profile_image_b64)
+    if 'user' not in session:
+        return redirect(url_for('auth.login'))
+    return render_dashboard(session.get('user'))
 
 # New About Us Page Route
 @app.route('/about')
@@ -44,44 +37,13 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/fetch_analysis/<video_id>')
-@login_required
-def fetch_analysis(video_id):
-    """Get analysis data from the database for a given video"""
-    analysis_data = db.get_analysis_for_user(session.get('user'), video_id)
-    if analysis_data:
-        return jsonify({
-            "video_id": analysis_data.get("video_id"),
-            "Video_Title": analysis_data.get("Video_Title"),
-            "Channel_Name": analysis_data.get("Channel_Name"),
-            "total_fetched": analysis_data.get("total_fetched"),
-            "total_english": analysis_data.get("total_english"),
-            "positive_count": analysis_data.get("positive_count"),
-            "negative_count": analysis_data.get("negative_count"),
-            "neutral_count": analysis_data.get("neutral_count"),
-            "positive_emoji": analysis_data.get("pos_count"),
-            "negative_emoji": analysis_data.get("neg_count"),
-            "neutral_emoji": analysis_data.get("neu_count"),
-            "trending_topics": analysis_data.get("trending_topics"),
-            "bar_chart_id": analysis_data.get("bar_chart_id"),
-            "emoji_chart_id": analysis_data.get("emoji_chart_id"),
-            "key_insights": analysis_data.get("key_insights"),
-            "thumbnail": analysis_data.get("thumbnail")
-        })
-    return jsonify({"error": "No analysis found"})
-
 @app.route('/analyze', methods=['POST'])
-@login_required
 def analyze():
     """Handles video analysis requests."""
+    if 'user' not in session:
+        return redirect(url_for('auth.login'))
+
     video_link = request.form['video_link']
-    video_ids,video_titles = db.get_user_video_ids(session.get('user'))
-    profile_image_b64 = db.get_user_profile_image(session.get('user'))
-    videos = []
-    for vid, title in zip(video_ids, video_titles):
-                                                     videos.append({
-                                                         "video_id": vid,
-                                                         "Video_Title": title})
 
     # Extract the video ID from the link.
     video_id = extract_video_id(video_link)
@@ -95,7 +57,7 @@ def analyze():
                 <i class="fas fa-exclamation-triangle me-2"></i><strong>Error:</strong> The YouTube link you entered is not valid. Please check the URL and try again.
             </div>
         '''
-        return render_template('index.html', error_message=error_alert, username=session.get('user'), videos=videos, profile=profile_image_b64)
+        return render_dashboard(session.get('user'), error_message=error_alert)
 
     # Check if the user has already analyzed this video
     existing_data = db.get_analysis_for_user(session.get('user'), video_id)
@@ -121,12 +83,7 @@ def analyze():
             "thumbnail": existing_data.get("thumbnail")
         }
 
-        # Render template with modal data
-        return render_template('index.html',
-                               username=session.get('user'),
-                               videos=videos,
-                               modal_data=modal_data,
-                               profile=profile_image_b64)
+        return render_dashboard(session.get('user'), modal_data=modal_data)
 
     else:
         # Perform new analysis
@@ -137,7 +94,7 @@ def analyze():
                     <i class="fas fa-exclamation-triangle me-2"></i><strong>Error:</strong> {analysis_data}
                 </div>
             '''
-            return render_template('index.html', error_message=error_alert, username=session.get('user'), videos=videos, profile=profile_image_b64)
+            return render_dashboard(session.get('user'), error_message=error_alert)
 
         # Save new analysis in the database
         db.save_analysis(session.get('user'), results["video_id"], analysis_data, results["bar_chart"], results["emoji_chart"])
@@ -162,32 +119,30 @@ def analyze():
             "thumbnail": analysis_data.get("thumbnail")
         }
 
-        # Render the template with new analysis data
-        return render_template('index.html',
-                               username=session.get('user'),
-                               videos=videos,
-                               modal_data=modal_data,
-                               profile=profile_image_b64)
+        return render_dashboard(session.get('user'), modal_data=modal_data)
 
 @app.route('/history')
-@login_required
 def history():
     """Displays the analysis history for the logged-in user."""
+    if 'user' not in session:
+        return redirect(url_for('auth.login'))
     user_id = session.get('user')
     history_data = db.get_user_analysis_history(user_id)
-    profile_image_b64 = db.get_user_profile_image(session.get('user'))
-    return render_template('History_model.html', history_data=history_data, username=session.get('user'),profile=profile_image_b64)
+    profile_image_b64 = db.get_user_profile_image(user_id)
+    return render_template('History_model.html', history_data=history_data, username=user_id, profile=profile_image_b64)
 
 @app.route('/delete_history/<video_id>', methods=['POST'])
-@login_required
 def delete_history(video_id):
     """Deletes a specific video analysis history record for the logged-in user."""
+    if 'user' not in session:
+        return redirect(url_for('auth.login'))
     user_id = session.get('user')
     deleted = db.delete_analysis(user_id, video_id)
     if deleted:
-        return jsonify({'success': True, 'message': 'Analysis history deleted successfully.'})
+        flash('Analysis history deleted successfully.', 'success')
     else:
-        return jsonify({'success': False, 'message': 'Failed to delete analysis history.'})
+        flash('Failed to delete analysis history.', 'error')
+    return redirect(url_for('history'))
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))
