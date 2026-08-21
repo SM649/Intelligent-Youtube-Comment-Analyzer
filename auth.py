@@ -1,7 +1,7 @@
 # auth.py
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from database import Database
-from functools import wraps
+from dashboard import render_dashboard
 import base64
 import re
 
@@ -32,27 +32,19 @@ def _validate_username(username):
         return "Username cannot start and end with double underscores."
     return None
 
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'user' not in session:
-            return redirect(url_for('auth.login'))  # Changed from 'login' to 'auth.login'
-        return f(*args, **kwargs)
-    return decorated_function
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        
+
         success, user = db.verify_user(email, password)
         if success:
             session['user'] = user['username']
-            return redirect(url_for('index'))
+            return render_dashboard(user['username'])
         flash("Invalid email or password", "error")
         return redirect(url_for('auth.login'))
-    
+
     return render_template('login.html')
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -100,14 +92,6 @@ def register():
 def logout():
     session.pop('user', None)
     return redirect(url_for('auth.login'))  # Changed from 'login' to 'auth.login'
-
-@auth.route('/history')
-def history():
-    """Displays the analysis history for the logged-in user."""
-    user_id = session.get('user')
-    profile_image_b64 = db.get_user_profile_image(session.get('user'))
-    history_data = db.get_user_analysis_history(user_id)
-    return render_template('History_model.html', username=session.get('user'), history_data=history_data, profile=profile_image_b64)
 
 @auth.route('/profile_settings', methods=['GET', 'POST'])
 def profile_settings():
