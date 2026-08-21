@@ -114,7 +114,7 @@
     <h6 class="text-sm font-semibold mb-2"><i class="fas fa-brain me-2"></i>Key Insights:</h6>
     <div class="text-sm text-text-dark">
       {% if modal_data.key_insights %}
-      {{ modal_data.key_insights | safe }}
+      {{ modal_data.key_insights }}
       {% else %}
       <p>No key insights available.</p>
       {% endif %}

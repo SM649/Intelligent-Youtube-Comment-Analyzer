@@ -120,6 +120,10 @@ def profile_settings():
     if request.method == 'POST':
         # new username + optional image + new password
         new_username = request.form['username']
+        username_error = _validate_username(new_username)
+        if username_error:
+            flash(username_error, "error")
+            return redirect(url_for('auth.profile_settings'))
         new_password = request.form.get('new_password') or None
 
         image_file = request.files.get('profile_image')
