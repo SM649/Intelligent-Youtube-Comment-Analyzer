@@ -6,19 +6,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--clay-blue)',
-        'primary-dark': 'var(--clay-blue)',
-        positive: 'var(--clay-blue)',
-        negative: 'var(--clay-coral)',
+        primary: 'rgb(var(--clay-blue-rgb) / <alpha-value>)',
+        'primary-dark': 'rgb(var(--clay-blue-rgb) / <alpha-value>)',
+        positive: 'rgb(var(--clay-blue-rgb) / <alpha-value>)',
+        negative: 'rgb(var(--clay-coral-rgb) / <alpha-value>)',
         // NOTE: this shadows Tailwind's built-in neutral-50..950 grayscale palette by design — used for sentiment badges (bg-neutral/text-neutral), not the gray scale.
-        neutral: 'var(--clay-neutral)',
+        neutral: 'rgb(var(--clay-neutral-rgb) / <alpha-value>)',
         surface: 'var(--clay-surface)',
         'app-bg': 'var(--clay-base)',
         'text-dark': 'var(--clay-text)',
         'text-muted': 'var(--clay-muted)',
         'border-light': 'var(--clay-border)',
         'border-lighter': 'var(--clay-border)',
-        'footer-dark': '#1a2036',
+        'footer-dark': 'var(--clay-footer)',
         'sidebar-bg': 'var(--clay-sidebar-bg)',
       },
       spacing: {
@@ -33,7 +33,6 @@ module.exports = {
         navbar: '0 8px 20px var(--clay-shadow-dark), 0 -2px 6px var(--clay-shadow-light)',
         'card-base': '6px 6px 14px var(--clay-shadow-dark), -6px -6px 14px var(--clay-shadow-light)',
         'card-hover': '8px 8px 18px var(--clay-shadow-dark), -8px -8px 18px var(--clay-shadow-light)',
-        'input-focus': '0 0 0 3px rgba(255, 122, 114, 0.35)',
         'button-primary': '6px 6px 14px var(--clay-shadow-dark), -4px -4px 10px var(--clay-shadow-light)',
         'button-primary-hover': '8px 8px 18px var(--clay-shadow-dark), -6px -6px 14px var(--clay-shadow-light)',
       },

@@ -18,6 +18,10 @@
   --clay-blue: #2f6fed;
   --clay-coral: #ff7a72;
   --clay-neutral: #d69e00;
+  --clay-blue-rgb: 47 111 237;
+  --clay-coral-rgb: 255 122 114;
+  --clay-neutral-rgb: 214 158 0;
+  --clay-footer: #1a2036;
 }
 
 .dark {
@@ -32,6 +36,10 @@
   --clay-blue: #5ac8fa;
   --clay-coral: #ff7a72;
   --clay-neutral: #f0b429;
+  --clay-blue-rgb: 90 200 250;
+  --clay-coral-rgb: 255 122 114;
+  --clay-neutral-rgb: 240 180 41;
+  --clay-footer: #0d1226;
 }
 
 @layer components {
