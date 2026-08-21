@@ -12,3 +12,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 });
+
+function toggleClayTheme() {
+  var root = document.documentElement;
+  var isDark = root.classList.toggle('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}

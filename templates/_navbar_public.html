@@ -18,6 +18,11 @@
       </button>
 
       <ul class="hidden md:flex md:items-center md:gap-2">
+        <li>
+          <button type="button" onclick="toggleClayTheme()" aria-label="Toggle dark mode" class="px-3 py-2">
+            <i class="fas fa-circle-half-stroke"></i>
+          </button>
+        </li>
         <li><a href="{{ url_for('landing') }}" class="block px-4 py-2 font-medium text-white hover:text-white/80 transition">Home</a></li>
         <li><a href="{{ url_for('about') }}" class="block px-4 py-2 font-medium {{ 'underline' if request.endpoint == 'about' else '' }} text-white hover:text-white/80 transition">About</a></li>
         <li><a href="{{ url_for('auth.login') }}" class="block px-4 py-2 font-medium {{ 'underline' if request.endpoint == 'auth.login' else '' }} text-white hover:text-white/80 transition"><i class="fas fa-sign-in-alt me-1"></i> Login</a></li>
@@ -26,6 +31,11 @@
     </div>
 
     <ul id="public-nav-links" x-show="mobileOpen" x-cloak class="md:hidden pb-4 space-y-1">
+      <li>
+        <button type="button" onclick="toggleClayTheme()" aria-label="Toggle dark mode" class="block px-4 py-2 font-medium">
+          <i class="fas fa-circle-half-stroke"></i> Toggle theme
+        </button>
+      </li>
       <li><a href="{{ url_for('landing') }}" class="block px-4 py-2 font-medium text-white hover:bg-white/10 rounded-brand-sm">Home</a></li>
       <li><a href="{{ url_for('about') }}" class="block px-4 py-2 font-medium text-white hover:bg-white/10 rounded-brand-sm">About</a></li>
       <li><a href="{{ url_for('auth.login') }}" class="block px-4 py-2 font-medium text-white hover:bg-white/10 rounded-brand-sm"><i class="fas fa-sign-in-alt me-1"></i> Login</a></li>

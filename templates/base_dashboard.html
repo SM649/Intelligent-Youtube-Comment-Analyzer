@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    (function () {
+      var stored = localStorage.getItem('theme');
+      if (stored === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Intelligent YouTube Comment Analyzer{% endblock %}</title>
@@ -29,30 +35,37 @@
             Intelligent YouTube Comments Analyzer
           </a>
 
-          <div x-data="{ open: false }" class="relative" @click.outside="open = false">
-            {% if username %}
-            <button type="button" @click="open = !open" class="flex items-center gap-2">
-              <img src="data:image/png;base64,{{ profile }}" class="h-9 w-9 rounded-full object-cover" alt="Profile">
-              <span class="hidden md:inline text-sm font-medium">{{ username }}</span>
+          <div class="flex items-center gap-1">
+            <button type="button" onclick="toggleClayTheme()" aria-label="Toggle dark mode"
+                    class="text-text-dark px-3 py-2 rounded-brand-md hover:bg-border-light transition">
+              <i class="fas fa-circle-half-stroke"></i>
             </button>
-            <ul x-show="open" x-cloak class="absolute right-0 mt-2 w-48 bg-white rounded-brand-lg shadow-navbar p-2 text-sm z-50">
-              <li>
-                <a href="{{ url_for('auth.profile_settings') }}" class="flex items-center gap-2 px-3 py-2 rounded-brand-md hover:bg-primary/10 transition">
-                  <i class="fas fa-user-cog"></i> Profile Settings
-                </a>
-              </li>
-              <li class="border-t border-border-lighter my-1"></li>
-              <li>
-                <a href="{{ url_for('auth.logout') }}" class="flex items-center gap-2 px-3 py-2 rounded-brand-md hover:bg-primary/10 transition">
-                  <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-              </li>
-            </ul>
-            {% else %}
-            <a href="{{ url_for('auth.login') }}" class="flex items-center gap-2 text-sm font-medium">
-              <i class="fas fa-sign-in-alt"></i> Login
-            </a>
-            {% endif %}
+
+            <div x-data="{ open: false }" class="relative" @click.outside="open = false">
+              {% if username %}
+              <button type="button" @click="open = !open" class="flex items-center gap-2">
+                <img src="data:image/png;base64,{{ profile }}" class="h-9 w-9 rounded-full object-cover" alt="Profile">
+                <span class="hidden md:inline text-sm font-medium">{{ username }}</span>
+              </button>
+              <ul x-show="open" x-cloak class="absolute right-0 mt-2 w-48 bg-surface rounded-brand-lg shadow-navbar p-2 text-sm z-50">
+                <li>
+                  <a href="{{ url_for('auth.profile_settings') }}" class="flex items-center gap-2 px-3 py-2 rounded-brand-md hover:bg-primary/10 transition">
+                    <i class="fas fa-user-cog"></i> Profile Settings
+                  </a>
+                </li>
+                <li class="border-t border-border-lighter my-1"></li>
+                <li>
+                  <a href="{{ url_for('auth.logout') }}" class="flex items-center gap-2 px-3 py-2 rounded-brand-md hover:bg-primary/10 transition">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                  </a>
+                </li>
+              </ul>
+              {% else %}
+              <a href="{{ url_for('auth.login') }}" class="flex items-center gap-2 text-sm font-medium">
+                <i class="fas fa-sign-in-alt"></i> Login
+              </a>
+              {% endif %}
+            </div>
           </div>
         </div>
       </nav>
