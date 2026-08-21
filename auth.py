@@ -127,12 +127,8 @@ def profile_settings():
         if image_file and image_file.filename:
             raw_bytes = image_file.read()
             if len(raw_bytes) > MAX_PROFILE_IMAGE_BYTES:
-                return render_template(
-                    'profile_settings.html',
-                    username=username,
-                    profile=db.get_user_profile_image(username),
-                    error="Profile image too large — please use an image under 500KB."
-                )
+                flash("Profile image too large — please use an image under 500KB.", "error")
+                return redirect(url_for('auth.profile_settings'))
             profile_b64 = base64.b64encode(raw_bytes).decode('utf-8')
 
         # call your DB update function
@@ -143,17 +139,14 @@ def profile_settings():
             profile_image_b64=profile_b64
         )
         if not success:
-            return render_template(
-                'profile_settings.html',
-                username=username,
-                profile=profile_b64 or db.get_user_profile_image(username),
-                error=msg
-            )
+            flash(msg, "error")
+            return redirect(url_for('auth.profile_settings'))
         # if username changed, update the session
         session['user'] = new_username
         username = new_username
+        return redirect(url_for('auth.profile_settings'))
 
-    # 3) On GET (or after successful POST) fetch current values
+    # 3) On GET fetch current values
     profile_b64 = db.get_user_profile_image(username)
     return render_template(
         'profile_settings.html',
