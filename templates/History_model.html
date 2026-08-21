@@ -7,13 +7,13 @@
 
 {% if history_data %}
 {% for analysis in history_data %}
-<div class="video-card rounded-brand-lg shadow-card-base hover:shadow-card-hover transition p-4 mb-4 bg-white">
+<div class="video-card rounded-brand-lg shadow-card-base hover:shadow-card-hover transition p-4 mb-4 bg-surface">
   <div class="grid sm:grid-cols-[auto_1fr] gap-4 items-start">
     <div class="sm:w-40 text-center">
       {% if analysis.thumbnail %}
-      <img src="data:image/jpeg;base64,{{ analysis.thumbnail }}" alt="Thumbnail" class="rounded-brand-md w-full">
+      <img src="data:image/jpeg;base64,{{ analysis.thumbnail }}" alt="Thumbnail" class="rounded-brand-md w-full" loading="lazy">
       {% else %}
-      <img src="https://via.placeholder.com/160x90?text=No+Thumbnail" alt="No Thumbnail" class="rounded-brand-md w-full">
+      <img src="https://via.placeholder.com/160x90?text=No+Thumbnail" alt="No Thumbnail" class="rounded-brand-md w-full" loading="lazy">
       {% endif %}
     </div>
 
@@ -42,21 +42,21 @@
       <div class="grid md:grid-cols-2 gap-3 mb-3">
         {% if analysis.bar_chart_id %}
         <div class="rounded-brand-md border border-border-lighter overflow-hidden">
-          <div class="bg-white px-3 py-2 border-b border-border-lighter">
+          <div class="bg-surface px-3 py-2 border-b border-border-lighter">
             <h6 class="font-semibold text-sm m-0">Comments Chart</h6>
           </div>
           <div class="p-3 text-center">
-            <img src="data:image/png;base64,{{ analysis.bar_chart_id }}" alt="Comments Chart" class="max-w-full mx-auto">
+            <img src="data:image/png;base64,{{ analysis.bar_chart_id }}" alt="Comments Chart" class="max-w-full mx-auto" loading="lazy">
           </div>
         </div>
         {% endif %}
         {% if analysis.emoji_chart_id %}
         <div class="rounded-brand-md border border-border-lighter overflow-hidden">
-          <div class="bg-white px-3 py-2 border-b border-border-lighter">
+          <div class="bg-surface px-3 py-2 border-b border-border-lighter">
             <h6 class="font-semibold text-sm m-0">Emoji Chart</h6>
           </div>
           <div class="p-3 text-center">
-            <img src="data:image/png;base64,{{ analysis.emoji_chart_id }}" alt="Emoji Chart" class="max-w-full mx-auto">
+            <img src="data:image/png;base64,{{ analysis.emoji_chart_id }}" alt="Emoji Chart" class="max-w-full mx-auto" loading="lazy">
           </div>
         </div>
         {% endif %}
