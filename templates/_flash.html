@@ -6,7 +6,7 @@
                     {{ 'bg-negative/10 text-negative border-negative/30' if category == 'error'
                        else 'bg-positive/10 text-positive border-positive/30' }}"
              role="alert">
-          <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ message }}
+          <i class="bi {{ 'bi-exclamation-triangle-fill' if category == 'error' else 'bi-check-circle-fill' }} me-2"></i>{{ message }}
         </div>
       {% endfor %}
     </div>

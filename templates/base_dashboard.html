@@ -18,7 +18,7 @@
   <div class="flex min-h-screen">
     {% include "_navbar_dashboard.html" %}
 
-    <div id="content" class="ml-sidebar w-[calc(100%-280px)] min-h-screen transition-all duration-300">
+    <div id="content" class="ml-0 w-full md:ml-sidebar md:w-[calc(100%-theme(spacing.sidebar))] min-h-screen transition-all duration-300">
       <nav id="topbar" class="bg-surface shadow-navbar mb-5 px-4 py-2">
         <div class="flex items-center justify-between">
           <button type="button" id="sidebarCollapse" class="text-primary-dark px-3 py-2 rounded-brand-md hover:bg-primary-dark/10 transition">
@@ -62,6 +62,10 @@
       <div class="p-4">
         {% block content %}{% endblock %}
       </div>
+
+      <footer class="text-center mt-5 mb-3 text-text-muted text-sm">
+        &copy; 2025 Intelligent YouTube Comment Analyzer. All Rights Reserved.
+      </footer>
     </div>
   </div>
 

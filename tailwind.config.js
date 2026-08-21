@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./templates/**/*.html'],
+  content: ['./templates/**/*.html', './static/**/*.js'],
   safelist: ['collapsed', 'expanded'],
   theme: {
     extend: {
@@ -12,6 +12,7 @@ module.exports = {
         'gradient-end': '#8f94fb',
         positive: '#28a745',
         negative: '#dc3545',
+        // NOTE: this shadows Tailwind's built-in neutral-50..950 grayscale palette by design — used for sentiment badges (bg-neutral/text-neutral), not the gray scale.
         neutral: '#ffc107',
         surface: '#ffffff',
         'app-bg': '#f8f9fa',
