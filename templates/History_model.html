@@ -69,12 +69,20 @@
   document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('historySearch');
     if (!searchInput) return;
+    const noResultsMsg = document.createElement('p');
+    noResultsMsg.className = 'text-text-muted text-sm';
+    noResultsMsg.textContent = 'No analyses match your search.';
+    noResultsMsg.style.display = 'none';
+    document.getElementById('historyList').after(noResultsMsg);
     searchInput.addEventListener('input', function () {
       const term = searchInput.value.trim().toLowerCase();
+      let anyVisible = false;
       document.querySelectorAll('#historyList .video-card').forEach(function (card) {
         const matches = card.dataset.title.includes(term) || card.dataset.channel.includes(term);
         card.style.display = matches ? '' : 'none';
+        if (matches) anyVisible = true;
       });
+      noResultsMsg.style.display = anyVisible ? 'none' : '';
     });
   });
 </script>

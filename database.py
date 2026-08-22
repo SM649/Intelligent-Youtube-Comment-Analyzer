@@ -69,6 +69,7 @@ class Database:
                 .where(filter=FieldFilter('username', '==', username))
                 .order_by('analyzed_at', direction=firestore.Query.DESCENDING)
                 .limit(limit)
+                .select(['video_id', 'Video_Title'])
         )
         return [d.to_dict() for d in query.stream()]
 

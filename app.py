@@ -158,7 +158,7 @@ def _annotate_and_summarize_history(history_data):
                 analyzed_dt = datetime.fromisoformat(analyzed_at)
                 if now - analyzed_dt <= timedelta(days=7):
                     this_week += 1
-            except ValueError:
+            except (ValueError, TypeError):
                 pass
 
     stats = {
@@ -176,6 +176,7 @@ def history():
         return redirect(url_for('auth.login'))
     user_id = session.get('user')
     history_data = db.get_user_analysis_history(user_id)
+    history_data.sort(key=lambda entry: entry.get('analyzed_at') or '', reverse=True)
     history_data, stats = _annotate_and_summarize_history(history_data)
     profile_image_b64 = db.get_user_profile_image(user_id)
     return render_template('History_model.html', history_data=history_data, username=user_id, profile=profile_image_b64, stats=stats)

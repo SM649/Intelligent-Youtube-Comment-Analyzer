@@ -91,3 +91,10 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .reveal-stage {
+    opacity: 1;
+    animation: none;
+  }
+}
+
