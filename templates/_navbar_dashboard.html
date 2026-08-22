@@ -8,6 +8,7 @@
   </div>
 
   <div class="flex-1 py-3">
+    <p class="px-5 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide text-text-muted">Main</p>
     <ul class="list-none m-0 p-0">
       <li class="my-1">
         <a href="{{ url_for('index') }}"
@@ -19,10 +20,28 @@
       <li class="my-1">
         <a href="{{ url_for('history') }}"
            class="flex items-center gap-2 px-5 py-3 text-sm border-l-4 transition
-                  {{ 'border-[var(--clay-coral)] text-[var(--clay-coral)] font-semibold' if request.endpoint in ('history', 'auth.history') else 'border-transparent text-text-muted hover:text-text-dark' }}">
+                  {{ 'border-[var(--clay-coral)] text-[var(--clay-coral)] font-semibold' if request.endpoint in ('history', 'history_detail') else 'border-transparent text-text-muted hover:text-text-dark' }}">
           <i class="bi bi-clock-history"></i> History
         </a>
       </li>
+    </ul>
+
+    {% if recent_analyses %}
+    <p class="px-5 pt-4 pb-1 text-xs font-semibold uppercase tracking-wide text-text-muted">Recent</p>
+    <ul class="list-none m-0 p-0">
+      {% for entry in recent_analyses %}
+      <li class="my-1">
+        <a href="{{ url_for('history_detail', video_id=entry.video_id) }}"
+           class="flex items-center gap-2 px-5 py-2 text-xs text-text-muted hover:text-text-dark transition truncate">
+          <i class="bi bi-play-circle"></i> <span class="truncate">{{ entry.Video_Title or 'Untitled video' }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <p class="px-5 pt-4 pb-1 text-xs font-semibold uppercase tracking-wide text-text-muted">Account</p>
+    <ul class="list-none m-0 p-0">
       <li class="my-1">
         <a href="{{ url_for('auth.profile_settings') }}"
            class="flex items-center gap-2 px-5 py-3 text-sm border-l-4 transition

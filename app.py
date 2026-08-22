@@ -14,6 +14,19 @@ app.secret_key = os.environ["FLASK_SECRET_KEY"]
 app.register_blueprint(auth)
 db = Database()
 
+@app.context_processor
+def inject_recent_analyses():
+    """Makes `recent_analyses` available to every template without threading it through each view."""
+    user_id = session.get('user')
+    if not user_id:
+        return {'recent_analyses': []}
+    try:
+        return {'recent_analyses': db.get_recent_analyses(user_id, limit=3)}
+    except Exception:
+        # A missing Firestore composite index (or any other transient query failure) must not
+        # break every page render — degrade to an empty sidebar list instead of a 500.
+        return {'recent_analyses': []}
+
 # New Landing Page Route
 @app.route('/')
 def landing():
