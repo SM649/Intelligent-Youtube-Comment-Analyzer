@@ -144,6 +144,19 @@ def history():
     profile_image_b64 = db.get_user_profile_image(user_id)
     return render_template('History_model.html', history_data=history_data, username=user_id, profile=profile_image_b64)
 
+@app.route('/history/<video_id>')
+def history_detail(video_id):
+    """Displays the full report (charts + insights) for one saved analysis."""
+    if 'user' not in session:
+        return redirect(url_for('auth.login'))
+    user_id = session.get('user')
+    analysis = db.get_analysis_for_user(user_id, video_id)
+    if not analysis:
+        flash('That analysis could not be found.', 'error')
+        return redirect(url_for('history'))
+    profile_image_b64 = db.get_user_profile_image(user_id)
+    return render_template('history_detail.html', analysis=analysis, username=user_id, profile=profile_image_b64)
+
 @app.route('/delete_history/<video_id>', methods=['POST'])
 def delete_history(video_id):
     """Deletes a specific video analysis history record for the logged-in user."""
