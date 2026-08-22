@@ -1,5 +1,5 @@
-<nav id="sidebar" class="fixed top-0 left-0 h-screen w-sidebar bg-brand-gradient text-white shadow-card-base z-40 flex flex-col transition-all duration-300 overflow-y-auto -ml-sidebar md:ml-0" :class="sidebarOpen && '!ml-0'" @click.outside="sidebarOpen = false">
-  <div class="relative px-5 py-5 border-b border-white/10">
+<nav id="sidebar" class="fixed top-0 left-0 h-screen w-sidebar bg-sidebar-bg text-text-dark z-40 flex flex-col transition-all duration-300 overflow-y-auto -ml-sidebar md:ml-0" :class="sidebarOpen && '!ml-0'" @click.outside="sidebarOpen = false">
+  <div class="relative px-5 py-5 border-b border-border-light">
     <button type="button" @click="sidebarOpen = false" aria-label="Close sidebar" class="md:hidden absolute right-4 top-4 text-2xl leading-none">&times;</button>
     <div class="flex items-center gap-2">
       <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="h-8 w-8">
@@ -8,25 +8,44 @@
   </div>
 
   <div class="flex-1 py-3">
+    <p class="px-5 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide text-text-muted">Main</p>
     <ul class="list-none m-0 p-0">
       <li class="my-1">
         <a href="{{ url_for('index') }}"
            class="flex items-center gap-2 px-5 py-3 text-sm border-l-4 transition
-                  {{ 'bg-white/20 border-white opacity-100' if request.endpoint == 'index' else 'border-transparent opacity-85 hover:bg-white/15 hover:border-white/50 hover:opacity-100' }}">
+                  {{ 'border-[var(--clay-coral)] text-[var(--clay-coral)] font-semibold' if request.endpoint == 'index' else 'border-transparent text-text-muted hover:text-text-dark' }}">
           <i class="bi bi-house-fill"></i> Dashboard
         </a>
       </li>
       <li class="my-1">
         <a href="{{ url_for('history') }}"
            class="flex items-center gap-2 px-5 py-3 text-sm border-l-4 transition
-                  {{ 'bg-white/20 border-white opacity-100' if request.endpoint in ('history', 'auth.history') else 'border-transparent opacity-85 hover:bg-white/15 hover:border-white/50 hover:opacity-100' }}">
+                  {{ 'border-[var(--clay-coral)] text-[var(--clay-coral)] font-semibold' if request.endpoint in ('history', 'history_detail') else 'border-transparent text-text-muted hover:text-text-dark' }}">
           <i class="bi bi-clock-history"></i> History
         </a>
       </li>
+    </ul>
+
+    {% if recent_analyses %}
+    <p class="px-5 pt-4 pb-1 text-xs font-semibold uppercase tracking-wide text-text-muted">Recent</p>
+    <ul class="list-none m-0 p-0">
+      {% for entry in recent_analyses %}
+      <li class="my-1">
+        <a href="{{ url_for('history_detail', video_id=entry.video_id) }}"
+           class="flex items-center gap-2 px-5 py-2 text-xs text-text-muted hover:text-text-dark transition truncate min-w-0">
+          <i class="bi bi-play-circle"></i> <span class="truncate min-w-0">{{ entry.Video_Title or 'Untitled video' }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <p class="px-5 pt-4 pb-1 text-xs font-semibold uppercase tracking-wide text-text-muted">Account</p>
+    <ul class="list-none m-0 p-0">
       <li class="my-1">
         <a href="{{ url_for('auth.profile_settings') }}"
            class="flex items-center gap-2 px-5 py-3 text-sm border-l-4 transition
-                  {{ 'bg-white/20 border-white opacity-100' if request.endpoint == 'auth.profile_settings' else 'border-transparent opacity-85 hover:bg-white/15 hover:border-white/50 hover:opacity-100' }}">
+                  {{ 'border-[var(--clay-coral)] text-[var(--clay-coral)] font-semibold' if request.endpoint == 'auth.profile_settings' else 'border-transparent text-text-muted hover:text-text-dark' }}">
           <i class="bi bi-gear-fill"></i> Profile Settings
         </a>
       </li>

@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+from firebase_admin import firestore
 from firebase_client import get_firestore_client
 from google.cloud.firestore_v1.base_query import FieldFilter
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -47,12 +49,29 @@ class Database:
             "username": username,
             "video_id": video_id,
             "bar_chart_id": bar_chart,
-            "emoji_chart_id": emoji_chart
+            "emoji_chart_id": emoji_chart,
+            "analyzed_at": datetime.now(timezone.utc).isoformat(),
         })
         self.video_analysis.add(analysis_data)
 
     def get_user_analysis_history(self, username):
         return [d.to_dict() for d in self.video_analysis.where(filter=FieldFilter('username', '==', username)).stream()]
+
+    def get_recent_analyses(self, username, limit=3):
+        """Returns the user's most recently analyzed videos, newest first.
+
+        Entries saved before the `analyzed_at` field existed are excluded by
+        Firestore's order_by (a doc missing the ordered field never matches),
+        which is an accepted limitation, not a bug.
+        """
+        query = (
+            self.video_analysis
+                .where(filter=FieldFilter('username', '==', username))
+                .order_by('analyzed_at', direction=firestore.Query.DESCENDING)
+                .limit(limit)
+                .select(['video_id', 'Video_Title'])
+        )
+        return [d.to_dict() for d in query.stream()]
 
     def delete_analysis(self, username, video_id):
         docs = list(

@@ -1,7 +1,7 @@
-<nav x-data="{ mobileOpen: false }" class="fixed top-0 inset-x-0 z-50 bg-gradient-start shadow-navbar">
+<nav x-data="{ mobileOpen: false }" class="fixed top-0 inset-x-0 z-50 bg-surface border-b border-border-light">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16 md:h-20">
-      <a href="{{ url_for('landing') }}" class="flex items-center gap-2 text-white font-semibold text-lg">
+      <a href="{{ url_for('landing') }}" class="flex items-center gap-2 text-text-dark font-semibold text-lg">
         <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="h-8 w-8 md:h-10 md:w-10">
         <span class="hidden sm:inline">Intelligent YouTube Comments Analyzer</span>
       </a>
@@ -9,7 +9,7 @@
       <button
         type="button"
         @click="mobileOpen = !mobileOpen"
-        class="md:hidden text-white p-2 rounded-brand-sm hover:bg-white/10"
+        class="md:hidden text-text-dark p-2 rounded-brand-sm hover:bg-border-light"
         :aria-expanded="mobileOpen.toString()"
         aria-controls="public-nav-links"
         aria-label="Toggle navigation"
@@ -18,18 +18,28 @@
       </button>
 
       <ul class="hidden md:flex md:items-center md:gap-2">
-        <li><a href="{{ url_for('landing') }}" class="block px-4 py-2 font-medium text-white hover:text-white/80 transition">Home</a></li>
-        <li><a href="{{ url_for('about') }}" class="block px-4 py-2 font-medium {{ 'underline' if request.endpoint == 'about' else '' }} text-white hover:text-white/80 transition">About</a></li>
-        <li><a href="{{ url_for('auth.login') }}" class="block px-4 py-2 font-medium {{ 'underline' if request.endpoint == 'auth.login' else '' }} text-white hover:text-white/80 transition"><i class="fas fa-sign-in-alt me-1"></i> Login</a></li>
-        <li><a href="{{ url_for('auth.register') }}" class="block px-4 py-2 rounded-brand-lg bg-white/15 font-medium text-white hover:bg-white/25 transition"><i class="fas fa-user-plus me-1"></i> Register</a></li>
+        <li>
+          <button type="button" onclick="toggleClayTheme()" aria-label="Toggle dark mode" class="px-3 py-2 text-text-dark">
+            <i class="fas fa-circle-half-stroke"></i>
+          </button>
+        </li>
+        <li><a href="{{ url_for('landing') }}" class="block px-4 py-2 font-medium text-text-dark hover:text-primary transition">Home</a></li>
+        <li><a href="{{ url_for('about') }}" class="block px-4 py-2 font-medium {{ 'underline' if request.endpoint == 'about' else '' }} text-text-dark hover:text-primary transition">About</a></li>
+        <li><a href="{{ url_for('auth.login') }}" class="block px-4 py-2 font-medium {{ 'underline' if request.endpoint == 'auth.login' else '' }} text-text-dark hover:text-primary transition"><i class="fas fa-sign-in-alt me-1"></i> Login</a></li>
+        <li><a href="{{ url_for('auth.register') }}" class="block px-4 py-2 rounded-brand-lg bg-primary/10 font-medium text-primary hover:bg-primary/20 transition"><i class="fas fa-user-plus me-1"></i> Register</a></li>
       </ul>
     </div>
 
     <ul id="public-nav-links" x-show="mobileOpen" x-cloak class="md:hidden pb-4 space-y-1">
-      <li><a href="{{ url_for('landing') }}" class="block px-4 py-2 font-medium text-white hover:bg-white/10 rounded-brand-sm">Home</a></li>
-      <li><a href="{{ url_for('about') }}" class="block px-4 py-2 font-medium text-white hover:bg-white/10 rounded-brand-sm">About</a></li>
-      <li><a href="{{ url_for('auth.login') }}" class="block px-4 py-2 font-medium text-white hover:bg-white/10 rounded-brand-sm"><i class="fas fa-sign-in-alt me-1"></i> Login</a></li>
-      <li><a href="{{ url_for('auth.register') }}" class="block px-4 py-2 font-medium text-white hover:bg-white/10 rounded-brand-sm"><i class="fas fa-user-plus me-1"></i> Register</a></li>
+      <li>
+        <button type="button" onclick="toggleClayTheme()" aria-label="Toggle dark mode" class="block px-4 py-2 font-medium text-text-dark">
+          <i class="fas fa-circle-half-stroke"></i> Toggle theme
+        </button>
+      </li>
+      <li><a href="{{ url_for('landing') }}" class="block px-4 py-2 font-medium text-text-dark hover:bg-border-light rounded-brand-sm">Home</a></li>
+      <li><a href="{{ url_for('about') }}" class="block px-4 py-2 font-medium text-text-dark hover:bg-border-light rounded-brand-sm">About</a></li>
+      <li><a href="{{ url_for('auth.login') }}" class="block px-4 py-2 font-medium text-text-dark hover:bg-border-light rounded-brand-sm"><i class="fas fa-sign-in-alt me-1"></i> Login</a></li>
+      <li><a href="{{ url_for('auth.register') }}" class="block px-4 py-2 font-medium text-text-dark hover:bg-border-light rounded-brand-sm"><i class="fas fa-user-plus me-1"></i> Register</a></li>
     </ul>
   </div>
 </nav>

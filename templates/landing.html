@@ -3,13 +3,30 @@
 {% block title %}Intelligent YouTube Comment Analyzer | Professional Insights{% endblock %}
 
 {% block content %}
-<header class="bg-brand-gradient text-white text-center py-24 md:py-32" id="home">
-  <div class="max-w-3xl mx-auto px-4" data-aos="fade-up" data-aos-duration="1000">
-    <h1 class="text-4xl md:text-5xl font-bold mb-4">Transform YouTube Comments Into Valuable Insights</h1>
-    <p class="text-lg md:text-xl mb-8 text-white/90">Harness the power of AI to analyze sentiment, identify trends, and gain actionable intelligence from your video comments.</p>
-    <a href="{{ url_for('auth.register') }}" class="inline-flex items-center gap-2 bg-white text-primary-dark font-semibold px-8 py-3 rounded-brand-lg hover:bg-white/90 transition">
+<header class="relative overflow-hidden bg-app-bg text-center py-24 md:py-32" id="home">
+  <div class="clay-blob" style="width:180px;height:180px;top:-60px;left:-60px;background:var(--clay-surface);"></div>
+  <div class="clay-blob" style="width:120px;height:120px;bottom:-30px;right:5%;background:var(--clay-coral);opacity:0.2;"></div>
+  <div class="relative max-w-3xl mx-auto px-4" data-aos="fade-up" data-aos-duration="1000">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-text-dark">Transform YouTube Comments Into Valuable Insights</h1>
+    <p class="text-lg md:text-xl mb-8 text-text-muted">Harness the power of AI to analyze sentiment, identify trends, and gain actionable intelligence from your video comments.</p>
+    <a href="{{ url_for('auth.register') }}" class="inline-flex items-center gap-2 bg-brand-gradient text-white font-semibold px-8 py-3 rounded-brand-lg shadow-button-primary hover:shadow-button-primary-hover transition">
       Start Analyzing Now <i class="bi bi-arrow-right"></i>
     </a>
+    <div class="mt-10 max-w-sm mx-auto rounded-brand-lg bg-surface shadow-card-base p-4 text-left">
+      <div class="text-xs text-text-muted mb-2">youtube.com/watch?v=<span class="hero-demo-url">dQw4w9WgXcQ</span></div>
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-xs w-16 text-text-muted">Positive</span>
+        <div class="flex-1 h-2 rounded-full bg-app-bg overflow-hidden"><div class="hero-demo-bar bg-positive" style="--fill-to:72%"></div></div>
+      </div>
+      <div class="flex items-center gap-2 mb-3">
+        <span class="text-xs w-16 text-text-muted">Negative</span>
+        <div class="flex-1 h-2 rounded-full bg-app-bg overflow-hidden"><div class="hero-demo-bar bg-negative" style="--fill-to:18%"></div></div>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="hero-demo-chip px-2 py-1 rounded-full bg-primary/10 text-primary text-xs">editing tips</span>
+        <span class="hero-demo-chip px-2 py-1 rounded-full bg-primary/10 text-primary text-xs">great content</span>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -54,7 +71,39 @@
   </div>
 </section>
 
-<section class="py-20 bg-white" id="how-it-works">
+<section class="py-20 bg-app-bg" id="sample-results">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
+      <h2 class="text-3xl font-bold mb-2">See It In Action</h2>
+      <p class="text-text-muted">An example of what your analysis report looks like</p>
+    </div>
+    <div class="rounded-brand-lg shadow-card-base bg-surface p-6" data-aos="fade-up" data-aos-delay="100">
+      <h5 class="font-semibold text-lg mb-1">"10 Tips For Better Video Editing"</h5>
+      <p class="text-sm text-text-muted mb-4">CreatorHub · 2,340 comments analyzed</p>
+      <div class="grid grid-cols-3 gap-3 mb-4">
+        <div class="rounded-brand-md bg-positive/10 p-3 text-center">
+          <h6 class="text-positive font-semibold text-sm mb-1">Positive</h6>
+          <p class="text-2xl font-bold m-0">76%</p>
+        </div>
+        <div class="rounded-brand-md bg-negative/10 p-3 text-center">
+          <h6 class="text-negative font-semibold text-sm mb-1">Negative</h6>
+          <p class="text-2xl font-bold m-0">14%</p>
+        </div>
+        <div class="rounded-brand-md bg-neutral/10 p-3 text-center">
+          <h6 class="text-neutral font-semibold text-sm mb-1">Neutral</h6>
+          <p class="text-2xl font-bold m-0">10%</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm">editing software</span>
+        <span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm">color grading</span>
+        <span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm">audio quality</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-20 bg-surface" id="how-it-works">
   <div class="max-w-4xl mx-auto px-4">
     <div class="text-center mb-12" data-aos="fade-up">
       <h2 class="text-3xl font-bold mb-2">How It Works</h2>
@@ -93,11 +142,12 @@
   </div>
 </section>
 
-<section class="py-20 bg-brand-gradient text-white text-center">
-  <div class="max-w-3xl mx-auto px-4" data-aos="fade-up">
-    <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Unlock Insights from Your YouTube Comments?</h2>
-    <p class="text-lg mb-8 text-white/90">Join thousands of content creators and marketers who are making better content decisions using our AI-powered analysis platform.</p>
-    <a href="{{ url_for('auth.register') }}" class="inline-flex items-center gap-2 bg-white text-primary-dark font-semibold px-8 py-3 rounded-brand-lg hover:bg-white/90 transition">
+<section class="relative overflow-hidden py-20 bg-app-bg text-center">
+  <div class="clay-blob" style="width:150px;height:150px;top:-40px;right:-40px;background:var(--clay-surface);"></div>
+  <div class="relative max-w-3xl mx-auto px-4" data-aos="fade-up">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-text-dark">Ready to Unlock Insights from Your YouTube Comments?</h2>
+    <p class="text-lg mb-8 text-text-muted">Join thousands of content creators and marketers who are making better content decisions using our AI-powered analysis platform.</p>
+    <a href="{{ url_for('auth.register') }}" class="inline-flex items-center gap-2 bg-brand-gradient text-white font-semibold px-8 py-3 rounded-brand-lg shadow-button-primary hover:shadow-button-primary-hover transition">
       Get Started Free <i class="bi bi-arrow-right"></i>
     </a>
   </div>
