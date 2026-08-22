@@ -42,12 +42,22 @@
   --clay-footer: #0d1226;
 }
 
+@keyframes reveal-fade {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @layer components {
   .clay-blob {
     border-radius: 9999px;
     position: absolute;
     pointer-events: none;
     box-shadow: inset 10px 10px 20px var(--clay-shadow-dark), inset -10px -10px 20px var(--clay-shadow-light);
+  }
+
+  .reveal-stage {
+    opacity: 0;
+    animation: reveal-fade 0.5s ease forwards;
   }
 }
 
