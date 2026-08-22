@@ -134,6 +134,41 @@ def analyze():
 
         return render_dashboard(session.get('user'), modal_data=modal_data)
 
+def _annotate_and_summarize_history(history_data):
+    """Adds positive_pct/negative_pct to each entry and returns (entries, stats dict)."""
+    from datetime import datetime, timezone, timedelta
+
+    now = datetime.now(timezone.utc)
+    positive_pcts_for_avg = []
+    this_week = 0
+
+    for entry in history_data:
+        pos = entry.get('positive_count', 0)
+        neg = entry.get('negative_count', 0)
+        neu = entry.get('neutral_count', 0)
+        denom = pos + neg + neu
+        entry['positive_pct'] = round(pos / denom * 100) if denom else 0
+        entry['negative_pct'] = round(neg / denom * 100) if denom else 0
+        if denom:
+            positive_pcts_for_avg.append(entry['positive_pct'])
+
+        analyzed_at = entry.get('analyzed_at')
+        if analyzed_at:
+            try:
+                analyzed_dt = datetime.fromisoformat(analyzed_at)
+                if now - analyzed_dt <= timedelta(days=7):
+                    this_week += 1
+            except ValueError:
+                pass
+
+    stats = {
+        'total': len(history_data),
+        'avg_positive': round(sum(positive_pcts_for_avg) / len(positive_pcts_for_avg)) if positive_pcts_for_avg else 0,
+        'this_week': this_week,
+    }
+    return history_data, stats
+
+
 @app.route('/history')
 def history():
     """Displays the analysis history for the logged-in user."""
@@ -141,8 +176,9 @@ def history():
         return redirect(url_for('auth.login'))
     user_id = session.get('user')
     history_data = db.get_user_analysis_history(user_id)
+    history_data, stats = _annotate_and_summarize_history(history_data)
     profile_image_b64 = db.get_user_profile_image(user_id)
-    return render_template('History_model.html', history_data=history_data, username=user_id, profile=profile_image_b64)
+    return render_template('History_model.html', history_data=history_data, username=user_id, profile=profile_image_b64, stats=stats)
 
 @app.route('/history/<video_id>')
 def history_detail(video_id):
